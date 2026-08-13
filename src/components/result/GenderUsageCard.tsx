@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const GenderUsageCard: React.FC<Props> = ({ data }) => {
-  let genderLabel = data.gender;
+  let genderLabel: string = data.gender;
   let genderIcon = '🚻';
   let badgeColor = 'bg-blue-50 text-blue-800 border-blue-200';
 
