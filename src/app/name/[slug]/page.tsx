@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const data = getPrebuiltOrDynamicName(nameTitle);
 
   return {
-    title: `${data.name} Name Meaning, Etymology, Origin & History | NameVerse`,
-    description: `Detailed etymology of the name ${data.name}. Meaning: "${data.meaning}". Origin: ${data.origin}. History, gender usage, variants, and cultural background.`,
-    keywords: [data.name, `${data.name} meaning`, `${data.name} origin`, `${data.name} etymology`, `${data.origin} names`],
+    title: `${data.name} Name Meaning, Origin & History | NameMeaning.fun`,
+    description: `Meaning of ${data.name}: "${data.meaning}". Origin: ${data.origin}. Gender, history, variants, and cultural background.`,
+    keywords: [data.name, `${data.name} meaning`, `${data.name} origin`, `${data.origin} names`],
     openGraph: {
       title: `${data.name} Name Meaning & Origin`,
-      description: `What does the name ${data.name} mean? Explore its ${data.origin} origin, linguistic root, and cultural history.`,
+      description: `What does the name ${data.name} mean? Explore its ${data.origin} origin and cultural history.`,
     },
   };
 }
@@ -42,7 +42,6 @@ export default async function NameResultPage({ params }: PageProps) {
   const rawName = unslugifyName(slug);
   const data = getPrebuiltOrDynamicName(rawName);
 
-  // JSON-LD structured data for SEO
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
@@ -50,15 +49,14 @@ export default async function NameResultPage({ params }: PageProps) {
     'description': data.meaning,
     'inDefinedTermSet': {
       '@type': 'DefinedTermSet',
-      'name': 'NameVerse Etymological Dictionary'
+      'name': 'NameMeaning.fun Etymological Dictionary'
     },
     'termCode': data.normalized_name
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5 sm:space-y-8">
       
-      {/* Script for JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -69,43 +67,43 @@ export default async function NameResultPage({ params }: PageProps) {
         <SearchBar initialValue={data.name} />
       </div>
 
-      {/* 1. Name Header & Quick Facts */}
+      {/* Name Header & Quick Facts */}
       <NameHeaderCard data={data} />
 
-      {/* 2. Full-Name Component Breakdown (if multi-word) */}
+      {/* Full-Name Component Breakdown */}
       {data.is_full_name && <FullNameAnalysisCard data={data} />}
 
-      {/* 3. Meaning & Etymology */}
+      {/* Meaning & Etymology */}
       <MeaningCard data={data} />
 
-      {/* 4. History of the Name */}
+      {/* Gender */}
+      <GenderUsageCard data={data} />
+
+      {/* History */}
       <HistoryCard data={data} />
 
-      {/* 5. Religion & Cultural Connection */}
+      {/* Religion & Cultural Connection */}
       <ReligionCultureCard data={data} />
 
-      {/* Grid of Gender & Pronunciation */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <GenderUsageCard data={data} />
-        <PronunciationCard data={data} />
-      </div>
+      {/* Pronunciation */}
+      <PronunciationCard data={data} />
 
-      {/* 6. Alternative Spellings / Variants */}
+      {/* Alternative Spellings */}
       <VariantsCard data={data} />
 
-      {/* 7. Related Names */}
+      {/* Related Names */}
       <RelatedNamesCard data={data} />
 
-      {/* 8. Regional Usage */}
+      {/* Regional Usage */}
       <RegionalUsageMap data={data} />
 
-      {/* 9. Notable People */}
+      {/* Notable People */}
       <NotablePeopleCard data={data} />
 
-      {/* 10. Source & Confidence System */}
+      {/* Sources */}
       <SourceConfidenceCard data={data} />
 
-      {/* 11. Related Searches */}
+      {/* Related Searches */}
       <RelatedSearches currentName={data.name} origin={data.origin} />
     </div>
   );

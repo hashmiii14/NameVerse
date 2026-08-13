@@ -14,70 +14,84 @@ interface Props {
 export const NameHeaderCard: React.FC<Props> = ({ data }) => {
   const slug = slugifyName(data.name);
 
-  return (
-    <div className="w-full rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-6 relative overflow-hidden">
-      
-      {/* Decorative gradient blur */}
-      <div className="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+  let genderBadge = '👦 Male (लड़का)';
+  let genderColor = 'text-blue-700 bg-blue-50 border-blue-200';
+  if (data.gender.toLowerCase().includes('female')) {
+    genderBadge = '👧 Female (लड़की)';
+    genderColor = 'text-pink-700 bg-pink-50 border-pink-200';
+  }
+  if (data.gender.toLowerCase().includes('unisex')) {
+    genderBadge = '🚻 Unisex';
+    genderColor = 'text-emerald-700 bg-emerald-50 border-emerald-200';
+  }
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
-        <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+  return (
+    <div className="w-full rounded-2xl bg-white border border-slate-200 p-4 sm:p-6 md:p-8 shadow-sm space-y-5">
+      
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 pb-5">
+        <div className="space-y-2 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 break-words">
               {data.name}
             </h1>
             <ConfidenceBadge confidence={data.confidence} />
-            <ConfidenceBadge academicStatus={data.academic_status} type="academic" />
           </div>
 
-          <p className="mt-2 text-base sm:text-lg font-medium text-emerald-600 dark:text-emerald-400">
-            {data.meaning}
+          <p className="text-base sm:text-lg md:text-xl font-bold text-emerald-700 break-words">
+            &ldquo;{data.meaning}&rdquo;
           </p>
+
+          {/* Gender Badge - prominent on mobile */}
+          <div className="pt-1">
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-extrabold border ${genderColor}`}>
+              {genderBadge}
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-center">
+        <div className="flex items-center gap-2 shrink-0">
           <FavoriteButton name={data.name} slug={slug} />
         </div>
       </div>
 
       {/* Quick Facts Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            <User className="w-4 h-4 text-emerald-500" />
-            Gender
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        <div className="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span className="truncate">Gender</span>
           </div>
-          <p className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
+          <p className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
             {data.gender}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            <Globe className="w-4 h-4 text-teal-500" />
-            Origin
+        <div className="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <Globe className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+            <span className="truncate">Origin</span>
           </div>
-          <p className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
+          <p className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
             {data.origin}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            <BookOpen className="w-4 h-4 text-cyan-500" />
-            Primary Language
+        <div className="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <BookOpen className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+            <span className="truncate">Language</span>
           </div>
-          <p className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
-            {data.languages.join(', ') || data.origin}
+          <p className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
+            {data.languages.slice(0, 2).join(', ') || data.origin}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            <Volume2 className="w-4 h-4 text-indigo-500" />
-            Pronunciation
+        <div className="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <Volume2 className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+            <span className="truncate">Say it</span>
           </div>
-          <p className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
+          <p className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
             {data.pronunciation?.simple || data.name}
           </p>
         </div>

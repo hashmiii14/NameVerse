@@ -2,40 +2,58 @@
 
 import React from 'react';
 import { NameAnalysis } from '@/types/name';
-import { Users, Info } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 interface Props {
   data: NameAnalysis;
 }
 
 export const GenderUsageCard: React.FC<Props> = ({ data }) => {
+  let genderLabel = data.gender;
+  let genderIcon = '🚻';
+  let badgeColor = 'bg-blue-50 text-blue-800 border-blue-200';
+
+  if (data.gender.toLowerCase().includes('male')) {
+    genderLabel = 'Male (लड़का / Boy)';
+    genderIcon = '👦';
+    badgeColor = 'bg-blue-50 text-blue-800 border-blue-200';
+  } else if (data.gender.toLowerCase().includes('female')) {
+    genderLabel = 'Female (लड़की / Girl)';
+    genderIcon = '👧';
+    badgeColor = 'bg-pink-50 text-pink-800 border-pink-200';
+  } else {
+    genderLabel = 'Unisex (उभयलिंग / Universal)';
+    genderIcon = '🚻';
+    badgeColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+  }
+
   return (
-    <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-4">
-      <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-        <div className="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold">
-          <Users className="w-5 h-5" />
+    <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-xs space-y-4">
+      <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
+        <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold">
+          <Users className="w-5 h-5 text-emerald-600" />
         </div>
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-            Gender Usage
+          <h2 className="text-xl font-bold text-slate-900">
+            Gender / लिंग
           </h2>
-          <p className="text-xs text-slate-400">
-            Traditional and cross-cultural gender conventions
+          <p className="text-xs text-slate-500">
+            Name usage and gender classification
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 flex-wrap">
-        <span className="px-4 py-2 rounded-xl bg-pink-500/10 text-pink-700 dark:text-pink-300 border border-pink-500/30 text-sm font-bold">
-          Primary Usage: {data.gender}
+      <div className="flex items-center gap-3">
+        <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-base font-extrabold border ${badgeColor}`}>
+          <span className="text-xl">{genderIcon}</span>
+          <span>{genderLabel}</span>
         </span>
       </div>
 
       {data.gender_notes && (
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed flex items-start gap-2.5">
-          <Info className="w-4 h-4 text-pink-500 shrink-0 mt-0.5" />
-          <p>{data.gender_notes}</p>
-        </div>
+        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pt-1">
+          {data.gender_notes}
+        </p>
       )}
     </div>
   );

@@ -67,13 +67,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
   return (
     <div className="w-full max-w-3xl mx-auto relative" ref={wrapperRef}>
       <div
-        className={`relative flex items-center rounded-2xl bg-white dark:bg-slate-900 border-2 transition-all shadow-xl shadow-emerald-500/5 ${
+        className={`relative flex items-center rounded-2xl bg-white border-2 transition-all shadow-lg shadow-slate-200/50 ${
           large
-            ? 'p-2 sm:p-3 border-emerald-500/40 focus-within:border-emerald-600 focus-within:ring-4 focus-within:ring-emerald-500/20'
-            : 'p-1.5 border-slate-200 dark:border-slate-800 focus-within:border-emerald-500'
+            ? 'p-1.5 sm:p-2 border-emerald-400 focus-within:border-emerald-600 focus-within:ring-4 focus-within:ring-emerald-500/15'
+            : 'p-1 sm:p-1.5 border-slate-200 focus-within:border-emerald-500'
         }`}
       >
-        <Search className={`ml-3 shrink-0 text-slate-400 ${large ? 'w-6 h-6' : 'w-5 h-5'}`} />
+        <Search className={`ml-2 sm:ml-3 shrink-0 text-slate-400 ${large ? 'w-5 h-5 sm:w-6 sm:h-6' : 'w-4 h-4 sm:w-5 sm:h-5'}`} />
 
         <input
           type="text"
@@ -81,9 +81,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => query.trim().length > 1 && setShowSuggestions(true)}
-          placeholder={t.searchPlaceholder}
-          className={`w-full bg-transparent px-3 font-medium text-slate-900 dark:text-white placeholder-slate-400 outline-none ${
-            large ? 'text-base sm:text-lg' : 'text-sm'
+          placeholder={large ? 'Enter any name...' : t.searchPlaceholder}
+          className={`w-full bg-transparent px-2 sm:px-3 font-medium text-slate-900 placeholder-slate-400 outline-none ${
+            large ? 'text-sm sm:text-base md:text-lg py-2 sm:py-2.5' : 'text-sm py-1.5'
           }`}
           aria-label="Search name"
         />
@@ -91,8 +91,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
         {query && (
           <button
             onClick={() => { setQuery(''); setSuggestions([]); }}
-            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 mr-1"
-            title="Clear input"
+            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 mr-0.5 sm:mr-1 shrink-0"
+            title="Clear"
           >
             <X className="w-4 h-4" />
           </button>
@@ -100,37 +100,37 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
 
         <button
           onClick={() => handleSearch()}
-          className={`flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold shadow-md transition-all active:scale-95 ${
-            large ? 'px-6 py-3 text-base' : 'px-4 py-2 text-sm'
+          className={`flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm transition-all active:scale-95 shrink-0 ${
+            large ? 'px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base' : 'px-3 sm:px-4 py-2 text-xs sm:text-sm'
           }`}
         >
-          <span>{t.exploreBtn}</span>
+          <span className="hidden sm:inline">{t.exploreBtn}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Multi-word indicator banner */}
+      {/* Multi-word indicator */}
       {isMultiWord && (
-        <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-lg border border-emerald-200/60 dark:border-emerald-900/50">
-          <UserCheck className="w-4 h-4 text-emerald-600" />
-          <span>Full Name Detected! We will analyze each part separately and provide a combined analysis.</span>
+        <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200/60">
+          <UserCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>Full Name Detected — each part will be analyzed separately.</span>
         </div>
       )}
 
       {/* Autocomplete Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in duration-150">
-          <div className="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
-            Suggested Names
+        <div className="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-50">
+          <div className="px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider bg-slate-50 border-b border-slate-100">
+            Suggestions
           </div>
           {suggestions.map((name) => (
             <button
               key={name}
               onClick={() => handleSearch(name)}
-              className="w-full px-4 py-3 text-left flex items-center justify-between text-sm hover:bg-emerald-50/70 dark:hover:bg-slate-800/80 text-slate-800 dark:text-slate-200 transition-colors border-b border-slate-100 dark:border-slate-800/40 last:border-0"
+              className="w-full px-4 py-3 text-left flex items-center justify-between text-sm hover:bg-emerald-50 text-slate-800 transition-colors border-b border-slate-100 last:border-0"
             >
-              <span className="font-semibold text-emerald-900 dark:text-emerald-300">{name}</span>
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-60" />
+              <span className="font-semibold text-slate-900">{name}</span>
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-60 shrink-0" />
             </button>
           ))}
         </div>

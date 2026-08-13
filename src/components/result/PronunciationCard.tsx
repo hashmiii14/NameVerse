@@ -32,18 +32,18 @@ export const PronunciationCard: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+    <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-xs space-y-5">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
             <Mic className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl font-bold text-slate-900">
               Pronunciation
             </h2>
             <p className="text-xs text-slate-400">
-              Phonetic breakdown and interactive audio synthesis
+              Phonetic breakdown and voice synthesis
             </p>
           </div>
         </div>
@@ -51,7 +51,7 @@ export const PronunciationCard: React.FC<Props> = ({ data }) => {
         <button
           onClick={speakName}
           disabled={isPlaying}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm shadow-md transition-all active:scale-95 disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm shadow-xs transition-all active:scale-95 disabled:opacity-50"
         >
           {isPlaying ? (
             <>
@@ -68,32 +68,32 @@ export const PronunciationCard: React.FC<Props> = ({ data }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 space-y-1">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
             Phonetic Breakdown
           </span>
-          <p className="text-lg font-bold text-blue-600 dark:text-blue-400 font-mono">
+          <p className="text-lg font-bold text-blue-700 font-mono">
             {data.pronunciation?.simple || data.name}
           </p>
         </div>
 
         {data.pronunciation?.ipa && (
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 space-y-1">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              International Phonetic Alphabet (IPA)
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              IPA
             </span>
-            <p className="text-lg font-bold text-slate-800 dark:text-slate-200 font-mono">
+            <p className="text-lg font-bold text-slate-800 font-mono">
               {data.pronunciation.ipa}
             </p>
           </div>
         )}
 
         {data.pronunciation?.original_script && (
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 space-y-1">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
               Original Script
             </span>
-            <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+            <p className="text-xl font-bold text-emerald-700">
               {data.pronunciation.original_script}
             </p>
           </div>
