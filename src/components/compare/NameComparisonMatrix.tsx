@@ -92,7 +92,7 @@ export const NameComparisonMatrix: React.FC = () => {
               </td>
               {analyses.map((item) => (
                 <td key={item.name} className="p-3 sm:p-5 border-l border-slate-100 font-semibold text-emerald-700">
-                  "{item.meaning}"
+                  &ldquo;{item.meaning}&rdquo;
                 </td>
               ))}
             </tr>

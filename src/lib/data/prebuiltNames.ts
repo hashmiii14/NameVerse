@@ -636,7 +636,7 @@ export function getPrebuiltOrDynamicName(inputName: string): NameAnalysis {
       const partClean = part.toLowerCase();
       const existing = SEED_NAMES[partClean];
       
-      let roleLabel = index === 0 ? "First Name" : index === parts.length - 1 ? "Surname / Last Name" : "Middle Name";
+      const roleLabel = index === 0 ? "First Name" : index === parts.length - 1 ? "Surname / Last Name" : "Middle Name";
       
       if (existing) {
         return {

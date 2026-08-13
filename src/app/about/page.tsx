@@ -9,21 +9,21 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-      <div className="space-y-2 border-b border-slate-200 dark:border-slate-800 pb-6 text-center">
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-6 sm:space-y-8">
+      <div className="space-y-2 border-b border-slate-200 pb-6 text-center">
+        <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
           About NameMeaning<span className="text-emerald-600">.fun</span>
         </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
           Connecting humanity through the rich etymological and cultural stories behind personal names.
         </p>
       </div>
 
-      <div className="space-y-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+      <div className="space-y-4 sm:space-y-6 text-slate-600 text-xs sm:text-base leading-relaxed">
         
-        <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Globe className="w-5 h-5 text-emerald-500" />
+        <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Globe className="w-5 h-5 text-emerald-500 shrink-0" />
             Cultural Respect & Academic Precision
           </h2>
           <p>
@@ -31,19 +31,19 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Heart className="w-5 h-5 text-rose-500" />
+        <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Heart className="w-5 h-5 text-rose-500 shrink-0" />
             Neutrality & Respect
           </h2>
           <p>
-            We firmly uphold that <strong>a name does not prove a person's religion, ethnicity, nationality, or personal beliefs.</strong> Many names are shared across languages and cultures. We clearly distinguish between etymological origin, religious tradition, and modern usage.
+            We firmly uphold that <strong>a name does not prove a person&apos;s religion, ethnicity, nationality, or personal beliefs.</strong> Many names are shared across languages and cultures. We clearly distinguish between etymological origin, religious tradition, and modern usage.
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 shadow-xs">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Award className="w-5 h-5 text-indigo-500" />
+        <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Award className="w-5 h-5 text-indigo-500 shrink-0" />
             Multilingual Support
           </h2>
           <p>

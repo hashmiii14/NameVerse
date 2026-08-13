@@ -217,7 +217,7 @@ export const NameFilterGrid: React.FC = () => {
                 </div>
 
                 <p className="text-xs font-semibold text-emerald-700 line-clamp-2">
-                  "{item.meaning}"
+                  &ldquo;{item.meaning}&rdquo;
                 </p>
 
                 <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">

@@ -44,7 +44,7 @@ export const FullNameAnalysisCard: React.FC<Props> = ({ data }) => {
                 href={`/name/${slugifyName(comp.name)}`}
                 className="text-xs font-semibold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors"
               >
-                Analyze '{comp.name}' →
+                Analyze &apos;{comp.name}&apos; →
               </Link>
             </div>
 

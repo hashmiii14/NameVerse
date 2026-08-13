@@ -39,7 +39,7 @@ export const MeaningCard: React.FC<Props> = ({ data }) => {
             Literal Meaning & Translation
           </div>
           <p className="text-lg font-bold text-slate-900">
-            "{data.meaning}"
+            &ldquo;{data.meaning}&rdquo;
           </p>
           {data.root_word && (
             <p className="text-xs text-slate-600 font-mono">
