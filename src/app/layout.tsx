@@ -8,14 +8,14 @@ import { Footer } from '@/components/layout/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NameVerse - Culturally Respectful Onomastics & Name Analysis',
-  description: 'Discover the exact meaning, linguistic origin, etymology, history, and cultural background behind personal names from all major world traditions.',
-  keywords: ['name meaning', 'name origin', 'etymology', 'arabic names', 'sanskrit names', 'hebrew names', 'christian names', 'muslim names', 'hindu names', 'full name analysis'],
-  authors: [{ name: 'NameVerse AI Team' }],
-  metadataBase: new URL('https://nameverse-ai.vercel.app'),
+  title: 'NameMeaning.fun - Meaning, Origin & History of Personal Names',
+  description: 'Discover the exact meaning, origin, history, gender, pronunciation, and cultural background of personal names globally.',
+  keywords: ['name meaning', 'name origin', 'etymology', 'arabic names', 'sanskrit names', 'hebrew names', 'christian names', 'muslim names', 'hindu names', 'full name analysis', 'namemeaning'],
+  authors: [{ name: 'NameMeaning Team' }],
+  metadataBase: new URL('https://namemeaning.fun'),
   openGraph: {
-    title: 'NameVerse - Deep Personal Name Etymology',
-    description: 'Discover the meaning, history, and cultural story behind any personal name globally.',
+    title: 'NameMeaning.fun - Deep Personal Name Etymology',
+    description: 'Discover the meaning, origin, and history behind any personal name globally.',
     type: 'website',
   },
 };
