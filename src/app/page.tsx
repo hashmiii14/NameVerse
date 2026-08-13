@@ -9,28 +9,31 @@ export default function HomePage() {
   return (
     <div className="space-y-12 py-6 sm:py-10">
       
-      {/* Search Hero Section */}
+      {/* Hero Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
         
         <div className="space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-semibold">
+            <span>🇮🇳 India & Asian Naming Traditions</span>
+          </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-            Discover the Meaning, Origin & History of Any Name
+            Discover the Meaning, Origin & History of Indian & Asian Names
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
-            Detailed etymology, linguistic root words, history, gender usage, and cultural background for names from all world traditions.
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Detailed etymology, Sanskrit & Arabic root words, history, gender usage, and cultural background across Hindu, Muslim, Sikh, Christian, Jain, Buddhist, and regional traditions.
           </p>
         </div>
 
-        {/* Clean Search Bar */}
+        {/* Search Bar */}
         <SearchBar large={true} />
 
-        {/* Clean Popular Tags */}
+        {/* Asian Trending Tags */}
         <QuickFilters />
       </section>
 
       {/* Cultural Neutrality Notice */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6">
-        <DisclaimerBanner />
+        <DisclaimerBanner customText="A name does not prove a person's religion, caste, ethnicity, or personal beliefs. Many names are shared across Indian states and Asian cultures." />
       </section>
 
       {/* Feature Cards Grid */}
@@ -42,10 +45,10 @@ export default function HomePage() {
               <BookOpen className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Meaning & Etymology
+              Sanskrit & Arabic Etymology
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Examines literal meanings, root words, original languages, and verified etymological origins.
+              Examines Sanskrit root words (धातु), Arabic roots (جذور), script origin, and verified linguistic translations.
             </p>
           </div>
 
@@ -54,10 +57,10 @@ export default function HomePage() {
               <Layers className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Full-Name Analysis
+              Full Indian Name Analysis
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Analyzes multi-part full names (such as "Muhammad Hashmi") by breaking down given names and surnames.
+              Analyzes multi-part full names (such as "Muhammad Hashmi", "Arjun Sharma", "Mary Elizabeth") by breaking down given names and surnames.
             </p>
           </div>
 
@@ -66,10 +69,10 @@ export default function HomePage() {
               <Globe className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Global World Traditions
+              Regional Asian Cultures
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Covers Hindu, Muslim, Christian, Jewish, Sikh, Buddhist, Jain, African, Celtic, Slavic, and Asian naming traditions.
+              Covers North & South Indian (Tamil, Telugu, Kannada, Malayalam), Punjabi/Sikh, Bengali, Marathi, Gujarati, and broader Asian traditions.
             </p>
           </div>
 
@@ -81,10 +84,10 @@ export default function HomePage() {
         <div className="rounded-2xl bg-slate-900 text-white p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center sm:text-left">
             <h2 className="text-xl sm:text-2xl font-bold">
-              Explore or Compare Names
+              Explore or Compare Indian & Asian Names
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              Find names by tradition or compare two names side-by-side.
+              Browse names by tradition or compare two names side-by-side.
             </p>
           </div>
 

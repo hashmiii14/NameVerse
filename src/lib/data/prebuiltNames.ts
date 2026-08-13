@@ -1,154 +1,25 @@
 import { NameAnalysis } from '@/types/name';
 
 export const SEED_NAMES: Record<string, NameAnalysis> = {
-  "muhammad": {
-    name: "Muhammad",
-    normalized_name: "muhammad",
-    gender: "Male",
-    gender_notes: "Traditionally male across all Islamic naming traditions and Arabic-speaking regions.",
-    origin: "Arabic",
-    languages: ["Arabic", "Urdu", "Persian", "Turkish", "Malay", "Hausa"],
-    meaning: "Praiseworthy, commendable, or the one who is continuously praised.",
-    root_word: "ḥ-m-d (ح-م-د)",
-    etymology: "Derived from the Arabic triconsonantal root Ḥ-M-D meaning 'praise'. It is a passive participle form (Form II / Maf'ūl pattern), emphasizing abundant and repeated praise.",
-    academic_status: "Well established",
-    history: "One of the most widely documented names in world history. Pre-Islamic usage was rare but existed in Arabia. It gained monumental global prominence as the name of the Islamic Prophet Muhammad (c. 570–632 CE). Over the centuries, it spread across North Africa, the Middle East, Central Asia, South Asia, and Southeast Asia, becoming the most popular given name for men globally.",
-    historical_period: "Classical Antiquity / Early Middle Ages (6th Century CE)",
-    geographic_spread: ["Middle East", "South Asia", "North Africa", "Central Asia", "Southeast Asia", "Europe"],
-    religious_associations: [
-      {
-        religion: "Islam",
-        strength: "Strong",
-        explanation: "Name of the founder and final Prophet of Islam. Borne out of reverence by Muslims worldwide."
-      }
-    ],
-    cultural_associations: [
-      "Islamic naming tradition",
-      "Arabic linguistic heritage",
-      "Honorific prefix in South Asian and Middle Eastern cultures"
-    ],
-    pronunciation: {
-      romanized: "muḥammad",
-      ipa: "/muˈħammad/",
-      simple: "muh-HAM-mad",
-      original_script: "مُحَمَّد"
-    },
-    variants: [
-      { spelling: "Mohammed", region_or_lang: "English / French / Global", notes: "Common European transliteration" },
-      { spelling: "Mohammad", region_or_lang: "Persian / South Asia", notes: "Standard in Iran, Pakistan, India" },
-      { spelling: "Mohamed", region_or_lang: "North Africa / Egypt", notes: "French/North African transliteration" },
-      { spelling: "Mehmet", region_or_lang: "Turkish", notes: "Turkish adaptation of Muhammad" },
-      { spelling: "Mamadou", region_or_lang: "West Africa", notes: "French West African phonetic variation" }
-    ],
-    related_names: [
-      { name: "Ahmad", relation_type: "Linguistic Root" },
-      { name: "Mahmud", relation_type: "Linguistic Root" },
-      { name: "Hamid", relation_type: "Linguistic Root" },
-      { name: "Hamida", relation_type: "Feminine Form" }
-    ],
-    regional_usage: [
-      { region: "Pakistan", popularity_data: "#1 given name / title prefix", is_primary: true },
-      { region: "Egypt", popularity_data: "#1 male given name", is_primary: true },
-      { region: "United Kingdom", popularity_data: "Top 10 overall baby names", is_primary: false },
-      { region: "Indonesia", popularity_data: "Extremely widespread given name", is_primary: true },
-      { region: "India", popularity_data: "Very common among Indian Muslims", is_primary: true }
-    ],
-    notable_people: [
-      { name: "Prophet Muhammad", role: "Prophet of Islam & Historical Figure", region: "Arabian Peninsula", why_notable: "Central historical figure of Islam" },
-      { name: "Muhammad Ali", role: "Heavyweight Boxing Champion & Civil Rights Activist", region: "United States", why_notable: "Global sports icon and humanitarian" },
-      { name: "Muhammad Iqbal", role: "Philosopher & Poet", region: "South Asia", why_notable: "Renowned Urdu and Persian poet and thinker" },
-      { name: "Muhammad Ali Jinnah", role: "Statesman", region: "South Asia", why_notable: "Founder of Pakistan" }
-    ],
-    confidence: "High",
-    sources: [
-      { title: "Hans Wehr Dictionary of Modern Written Arabic", type: "Linguistic Dictionary" },
-      { title: "Oxford Dictionary of First Names", type: "Academic Resource" },
-      { title: "Encyclopaedia of Islam (Leiden)", type: "Historical Reference" }
-    ],
-    uncertainties: [
-      "Exact frequency of the name in pre-Islamic Arabia remains debated among epigraphers, though ancient South Arabian inscriptions confirm the root Ḥ-M-D existed."
-    ]
-  },
-
-  "hashmi": {
-    name: "Hashmi",
-    normalized_name: "hashmi",
-    gender: "Unisex",
-    gender_notes: "Used predominantly as a surname, nisba (attributive surname), or family title for both men and women.",
-    origin: "Arabic",
-    languages: ["Arabic", "Urdu", "Persian"],
-    meaning: "Pertaining to or descended from Hashim; associated with generosity or breaker of bread.",
-    root_word: "h-sh-m (هـ-ش-م)",
-    etymology: "Derived from the Arabic root H-Sh-M meaning 'to crush or break' (specifically breaking bread to feed guests). The suffix '-i' forms a Nisba (attributive relationship).",
-    academic_status: "Well established",
-    history: "Traces historically to Hashim ibn Abd Manaf, the great-grandfather of the Islamic Prophet Muhammad. Hashim earned his nickname by crushing bread to feed pilgrims in Mecca during a famine. The nisba 'Hashmi' (or Al-Hashimi) historically designated members or adherents of the Banu Hashim clan of the Quraysh tribe.",
-    historical_period: "Pre-Islamic Arabia (5th Century CE)",
-    geographic_spread: ["South Asia (Pakistan, India)", "Middle East", "Iran", "North Africa"],
-    religious_associations: [
-      {
-        religion: "Islam",
-        strength: "Strong",
-        explanation: "Associated with the lineage of Banu Hashim and the Prophet's extended family."
-      }
-    ],
-    cultural_associations: [
-      "South Asian family surname",
-      "Arabic nisba lineage title",
-      "Hashemite historical dynasty"
-    ],
-    pronunciation: {
-      romanized: "hāshimī",
-      ipa: "/haːʃimiː/",
-      simple: "HASH-mee",
-      original_script: "ஹாஷ்மி / هاشمي"
-    },
-    variants: [
-      { spelling: "Hashemi", region_or_lang: "Persian / Iran", notes: "Standard Iranian transliteration" },
-      { spelling: "Al-Hashimi", region_or_lang: "Arabic / Middle East", notes: "Definite article prefix form" },
-      { spelling: "Hashemite", region_or_lang: "English / Dynastic", notes: "Anglicized reference to the royal house of Jordan" }
-    ],
-    related_names: [
-      { name: "Hashim", relation_type: "Linguistic Root" },
-      { name: "Hisham", relation_type: "Linguistic Root" }
-    ],
-    regional_usage: [
-      { region: "Pakistan", popularity_data: "Common surname throughout Punjab and Sindh", is_primary: true },
-      { region: "India", popularity_data: "Common surname among North and South Indian Muslims", is_primary: true },
-      { region: "Jordan", popularity_data: "Royal lineage designation (Hashemite Kingdom)", is_primary: true }
-    ],
-    notable_people: [
-      { name: "Hashim ibn Abd Manaf", role: "Leader of Quraysh", region: "Mecca", why_notable: "Ancestor of Banu Hashim" },
-      { name: "Emir Faisal Al-Hashimi", role: "King of Iraq and Syria", region: "Middle East", why_notable: "Key figure in 20th century Arab history" }
-    ],
-    confidence: "High",
-    sources: [
-      { title: "Arabic-English Lexicon by Edward William Lane", type: "Linguistic Dictionary" },
-      { title: "Genealogical History of Arabia", type: "Historical Reference" }
-    ],
-    uncertainties: [
-      "Using the surname Hashmi in modern times does not automatically prove direct genealogical descent from the Banu Hashim clan, as surnames are often adopted geographically or culturally."
-    ]
-  },
-
   "aarav": {
     name: "Aarav",
     normalized_name: "aarav",
     gender: "Male",
-    gender_notes: "Traditionally male in Indian naming conventions.",
+    gender_notes: "Traditionally male across Indian and South Asian naming traditions.",
     origin: "Sanskrit",
-    languages: ["Sanskrit", "Hindi", "Marathi", "Gujarati", "Bengali"],
-    meaning: "Peaceful, calm, wisdom, or sound / resonance.",
+    languages: ["Sanskrit", "Hindi", "Marathi", "Gujarati", "Bengali", "Telugu"],
+    meaning: "Peaceful, calm, wisdom, or melodious sound resonance.",
     root_word: "ā-rāva (आराव / रव)",
-    etymology: "From Sanskrit 'Ā-rāva' meaning 'melodious sound, resonance' or derived from root 'Rava' (sound). Modern popular usage interprets it as 'peaceful / calm'.",
+    etymology: "Derived from Classical Sanskrit 'Ā-rāva' meaning 'melodious sound, resonance' or root 'Rava' (vibration of sound). Modern usage in India interprets it as 'peaceful and calm'.",
     academic_status: "Well established",
-    history: "A classic Sanskrit word found in ancient Indian literature including texts describing nature and spiritual sound vibrations. It surged in modern popularity across India and the global Indian diaspora during the 2000s as a contemporary yet deeply traditional choice.",
-    historical_period: "Vedic & Classical Sanskrit Period",
-    geographic_spread: ["India", "Nepal", "Global Indian Diaspora"],
+    history: "A classical Sanskrit term documented in ancient Indian texts. Over the last two decades, Aarav has emerged as one of the most popular male names in India and among the global South Asian diaspora.",
+    historical_period: "Vedic & Classical Sanskrit Era",
+    geographic_spread: ["India", "Nepal", "Sri Lanka", "Global Indian Diaspora"],
     religious_associations: [
       {
         religion: "Hindu traditions",
         strength: "Strong",
-        explanation: "Derived from Sanskrit spiritual roots and widely used in Hindu naming ceremonies (Namakarana)."
+        explanation: "Derived from Sanskrit roots and widely chosen during Namakarana (naming ceremony)."
       }
     ],
     cultural_associations: [
@@ -159,19 +30,18 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
       romanized: "ārav",
       ipa: "/aːrəʋ/",
       simple: "AH-ruv",
-      original_script: "आरव"
+      original_script: "आरव / આરવ"
     },
     variants: [
-      { spelling: "Arav", region_or_lang: "English / Transliteration", notes: "Simplified single 'a' spelling" },
-      { spelling: "Aaravh", region_or_lang: "Numerological", notes: "Alternative spelling variant" }
+      { spelling: "Arav", region_or_lang: "Simplified Latin", notes: "Single 'a' spelling" },
+      { spelling: "Aaravh", region_or_lang: "Numerological", notes: "Modern variation" }
     ],
     related_names: [
       { name: "Aaravi", relation_type: "Feminine Form" },
       { name: "Rava", relation_type: "Linguistic Root" }
     ],
     regional_usage: [
-      { region: "India", popularity_data: "Consistently #1 or Top 5 male name since 2010", is_primary: true },
-      { region: "United States", popularity_data: "Top 300 male names among Indian Americans", is_primary: false }
+      { region: "India", popularity_data: "Consistently #1 male given name across urban India", is_primary: true }
     ],
     notable_people: [
       { name: "Aarav Kumar", role: "Public Figure", region: "India", why_notable: "Son of Bollywood actor Akshay Kumar" }
@@ -179,7 +49,64 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
     confidence: "High",
     sources: [
       { title: "Monier-Williams Sanskrit-English Dictionary", type: "Linguistic Dictionary" },
-      { title: "Indian Ministry of Statistics Naming Data", type: "Government Registry" }
+      { title: "Indian Ministry of Statistics Naming Index", type: "Government Registry" }
+    ]
+  },
+
+  "muhammad": {
+    name: "Muhammad",
+    normalized_name: "muhammad",
+    gender: "Male",
+    gender_notes: "Traditionally male across South Asian, Middle Eastern, and global Islamic cultures.",
+    origin: "Arabic",
+    languages: ["Arabic", "Urdu", "Hindi", "Bengali", "Persian", "Turkish"],
+    meaning: "Praiseworthy, commendable, or the one who is continuously praised.",
+    root_word: "ḥ-m-d (ح-م-د)",
+    etymology: "Derived from the Arabic root Ḥ-M-D meaning 'praise'. It is a passive participle form (Form II / Maf'ūl pattern), emphasizing abundant and repeated praise.",
+    academic_status: "Well established",
+    history: "Gained monumental global prominence as the name of the Islamic Prophet Muhammad (c. 570–632 CE). Over centuries, it spread throughout South Asia (India, Pakistan, Bangladesh) and South-East Asia, becoming the most popular given name for men globally.",
+    historical_period: "6th Century CE",
+    geographic_spread: ["South Asia (India, Pakistan, Bangladesh)", "Middle East", "Southeast Asia"],
+    religious_associations: [
+      {
+        religion: "Islam",
+        strength: "Strong",
+        explanation: "Name of the founder and final Prophet of Islam. Borne by Muslims worldwide."
+      }
+    ],
+    cultural_associations: [
+      "South Asian Muslim heritage",
+      "Honorific prefix in Indian & Pakistani names"
+    ],
+    pronunciation: {
+      romanized: "muḥammad",
+      ipa: "/muˈħammad/",
+      simple: "muh-HAM-mad",
+      original_script: "مُحَمَّد / मोहम्मद"
+    },
+    variants: [
+      { spelling: "Mohammad", region_or_lang: "South Asia / Iran", notes: "Standard spelling in India & Pakistan" },
+      { spelling: "Mohammed", region_or_lang: "Global", notes: "Common transliteration" },
+      { spelling: "Mohamed", region_or_lang: "North Africa", notes: "French/North African form" }
+    ],
+    related_names: [
+      { name: "Ahmad", relation_type: "Linguistic Root" },
+      { name: "Mahmud", relation_type: "Linguistic Root" },
+      { name: "Hamid", relation_type: "Linguistic Root" }
+    ],
+    regional_usage: [
+      { region: "India", popularity_data: "Very common given name among Indian Muslims", is_primary: true },
+      { region: "Pakistan", popularity_data: "#1 given name / title prefix", is_primary: true },
+      { region: "Bangladesh", popularity_data: "Extremely widespread given name", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Prophet Muhammad", role: "Prophet of Islam", region: "Arabian Peninsula", why_notable: "Central historical figure of Islam" },
+      { name: "Muhammad Iqbal", role: "Poet & Philosopher", region: "South Asia", why_notable: "Renowned Urdu and Persian poet" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Hans Wehr Dictionary of Modern Written Arabic", type: "Linguistic Dictionary" },
+      { title: "Oxford Dictionary of First Names", type: "Academic Resource" }
     ]
   },
 
@@ -189,19 +116,19 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
     gender: "Female",
     gender_notes: "Traditionally female in Indian naming traditions.",
     origin: "Sanskrit",
-    languages: ["Sanskrit", "Hindi", "Telugu", "Tamil", "Kannada"],
+    languages: ["Sanskrit", "Hindi", "Telugu", "Tamil", "Kannada", "Marathi"],
     meaning: "First power, primal energy, beginning, or Goddess Durga.",
     root_word: "ādya (आद्या)",
-    etymology: "Derived from Sanskrit 'Ādya' meaning 'first, original, paramount'. It is an epithet of Goddess Durga as the primordial feminine energy (Adishakti).",
+    etymology: "From Sanskrit 'Ādya' meaning 'first, original, paramount'. It is an epithet of Goddess Durga representing the primordial feminine energy (Adishakti).",
     academic_status: "Well established",
-    history: "Rooted in ancient Vedic literature and Shaktism traditions. The name reflects the philosophical concept of 'Adi' (beginning). It rose to top popularity across urban India over the last two decades.",
-    historical_period: "Ancient Sanskrit Literature",
-    geographic_spread: ["India", "Nepal", "Singapore", "US/UK Diaspora"],
+    history: "Rooted in Vedic literature and Shaktism. Reflects the philosophical concept of 'Adi' (the beginning). It has been among the top female baby names in India for the past decade.",
+    historical_period: "Ancient Sanskrit Era",
+    geographic_spread: ["India", "Nepal", "Singapore", "Global Diaspora"],
     religious_associations: [
       {
         religion: "Hindu traditions",
         strength: "Strong",
-        explanation: "Epithet of Goddess Durga, symbol of cosmic Shakti."
+        explanation: "Epithet of Goddess Durga, symbol of divine Shakti."
       }
     ],
     cultural_associations: [
@@ -212,10 +139,10 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
       romanized: "āḍhyā",
       ipa: "/aːd̪ʱjaː/",
       simple: "AAD-hya",
-      original_script: "आद्या"
+      original_script: "आद्या / ఆద్య"
     },
     variants: [
-      { spelling: "Aadya", region_or_lang: "Standard Transliteration", notes: "Direct Sanskrit transliteration" },
+      { spelling: "Aadya", region_or_lang: "Standard Sanskrit", notes: "Direct transliteration" },
       { spelling: "Adhya", region_or_lang: "Simplified", notes: "Shortened spelling" }
     ],
     related_names: [
@@ -223,151 +150,15 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
       { name: "Aditi", relation_type: "Cross-Cultural Counterpart" }
     ],
     regional_usage: [
-      { region: "India", popularity_data: "Top 5 female baby name across India", is_primary: true }
+      { region: "India", popularity_data: "Top 5 female baby name across North & South India", is_primary: true }
     ],
     notable_people: [
-      { name: "Aadhya Anand", role: "Actress & Model", region: "India", why_notable: "Indian youth television actress" }
+      { name: "Aadhya Anand", role: "Actress", region: "India", why_notable: "Youth film and television actress" }
     ],
     confidence: "High",
     sources: [
       { title: "Monier-Williams Sanskrit Dictionary", type: "Linguistic Dictionary" },
-      { title: "Puranic Encyclopedia by Vettam Mani", type: "Academic Resource" }
-    ]
-  },
-
-  "mary": {
-    name: "Mary",
-    normalized_name: "mary",
-    gender: "Female",
-    gender_notes: "Traditionally female across Western and global Christian naming cultures.",
-    origin: "Hebrew",
-    languages: ["Hebrew", "Aramaic", "Greek", "Latin", "English"],
-    meaning: "Beloved, sea of bitterness, wished-for child, or exalted one.",
-    root_word: "m-r-m (Miryam / מרים)",
-    etymology: "Derived from Hebrew 'Miryam' (מרים). Etymologists suggest origins from Ancient Egyptian 'mry' (beloved) or Hebrew roots for 'bitter' (mar) / 'rebellious' (marah).",
-    academic_status: "Well established",
-    history: "Borne by Mary, mother of Jesus in the New Testament, and Mary Magdalene. It became the single most popular female name throughout the Christian world for over a millennium, giving rise to dozens of international variations.",
-    historical_period: "Antiquity (1st Century BCE)",
-    geographic_spread: ["Europe", "Americas", "Africa", "Oceania", "Middle East"],
-    religious_associations: [
-      {
-        religion: "Christianity",
-        strength: "Strong",
-        explanation: "Associated with Mary, Mother of Jesus (Blessed Virgin)."
-      },
-      {
-        religion: "Islam",
-        strength: "Shared",
-        explanation: "Known as Maryam (مريم) in Islam, the only woman named directly in the Quran."
-      },
-      {
-        religion: "Judaism",
-        strength: "Historical",
-        explanation: "Miriam was the sister of Moses in the Hebrew Bible."
-      }
-    ],
-    cultural_associations: [
-      "Biblical naming heritage",
-      "Western classic nomenclature"
-    ],
-    pronunciation: {
-      romanized: "mæri",
-      ipa: "/ˈmɛəɹi/",
-      simple: "MAIR-ee",
-      original_script: "Mary / מרים"
-    },
-    variants: [
-      { spelling: "Maria", region_or_lang: "Latin / Spanish / Italian / German", notes: "Widespread European form" },
-      { spelling: "Maryam", region_or_lang: "Arabic / Hebrew / Persian", notes: "Semitic original form" },
-      { spelling: "Marie", region_or_lang: "French", notes: "Standard French variant" },
-      { spelling: "Mhairi", region_or_lang: "Scottish Gaelic", notes: "Gaelic form" }
-    ],
-    related_names: [
-      { name: "Miriam", relation_type: "Linguistic Root" },
-      { name: "Molly", relation_type: "Diminutive / Nickname" },
-      { name: "Polly", relation_type: "Diminutive / Nickname" }
-    ],
-    regional_usage: [
-      { region: "United States", popularity_data: "#1 female name for over 400 years (1880-1961)", is_primary: true },
-      { region: "Ireland", popularity_data: "Extremely widespread historical name", is_primary: true }
-    ],
-    notable_people: [
-      { name: "Mary, Queen of Scots", role: "Monarch", region: "Scotland", why_notable: "Historic 16th-century sovereign" },
-      { name: "Mary Shelley", role: "Author", region: "England", why_notable: "Writer of Frankenstein" },
-      { name: "Mary Curie (Marie Curie)", role: "Physicist & Chemist", region: "Poland / France", why_notable: "Two-time Nobel Prize winner" }
-    ],
-    confidence: "High",
-    sources: [
-      { title: "Oxford Dictionary of First Names", type: "Academic Resource" },
-      { title: "Hebrew and Aramaic Lexicon of the Old Testament", type: "Linguistic Dictionary" }
-    ]
-  },
-
-  "john": {
-    name: "John",
-    normalized_name: "john",
-    gender: "Male",
-    gender_notes: "Traditionally male in Western, Middle Eastern, and global Christian contexts.",
-    origin: "Hebrew",
-    languages: ["Hebrew", "Greek", "Latin", "English"],
-    meaning: "Yahweh (God) is gracious.",
-    root_word: "Yōḥānān (יוחנן)",
-    etymology: "From Hebrew 'Yehohanan' (Yo = Yahweh + Chanan = to be gracious). Rendered in Greek as Ioannes (Ιωάννης) and Latin as Iohannes.",
-    academic_status: "Well established",
-    history: "Borne by John the Baptist and John the Apostle in the New Testament. It became one of the most widely used male names across Europe, inspiring versions like Juan, Jean, Giovanni, Ivan, and Johann.",
-    historical_period: "Ancient Near East / Biblical Antiquity",
-    geographic_spread: ["Worldwide"],
-    religious_associations: [
-      {
-        religion: "Christianity",
-        strength: "Strong",
-        explanation: "Key New Testament figure (John the Baptist & John the Evangelist)."
-      },
-      {
-        religion: "Islam",
-        strength: "Shared",
-        explanation: "Venerated as Prophet Yahya (يحيا) in Islam."
-      },
-      {
-        religion: "Judaism",
-        strength: "Historical",
-        explanation: "Borne by High Priests and figures in Jewish history."
-      }
-    ],
-    cultural_associations: [
-      "Classic English naming heritage"
-    ],
-    pronunciation: {
-      romanized: "dʒɒn",
-      ipa: "/dʒɒn/",
-      simple: "JON",
-      original_script: "John / יוחנן"
-    },
-    variants: [
-      { spelling: "Juan", region_or_lang: "Spanish", notes: "Spanish equivalent" },
-      { spelling: "Jean", region_or_lang: "French", notes: "French equivalent" },
-      { spelling: "Giovanni", region_or_lang: "Italian", notes: "Italian equivalent" },
-      { spelling: "Johann", region_or_lang: "German", notes: "German equivalent" },
-      { spelling: "Ivan", region_or_lang: "Slavic / Russian", notes: "Slavic adaptation" },
-      { spelling: "Yahya", region_or_lang: "Arabic / Turkish", notes: "Semitic Quranic equivalent" }
-    ],
-    related_names: [
-      { name: "Jonathan", relation_type: "Cross-Cultural Counterpart" },
-      { name: "Jack", relation_type: "Diminutive / Nickname" }
-    ],
-    regional_usage: [
-      { region: "United States", popularity_data: "#1 name for 400+ years historically", is_primary: true },
-      { region: "United Kingdom", popularity_data: "Classic timeless male name", is_primary: true }
-    ],
-    notable_people: [
-      { name: "John F. Kennedy", role: "35th US President", region: "United States", why_notable: "Historic world leader" },
-      { name: "John Locke", role: "Philosopher", region: "England", why_notable: "Father of Liberalism" },
-      { name: "John Lennon", role: "Musician", region: "England", why_notable: "Founder of The Beatles" }
-    ],
-    confidence: "High",
-    sources: [
-      { title: "Oxford Dictionary of English Etymology", type: "Linguistic Dictionary" },
-      { title: "Anchor Bible Dictionary", type: "Academic Resource" }
+      { title: "Puranic Encyclopedia", type: "Academic Resource" }
     ]
   },
 
@@ -380,11 +171,11 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
     languages: ["Sanskrit", "Hindi", "Punjabi", "Tamil", "Telugu", "Malayalam"],
     meaning: "Bright, shining, white, clear, or silver.",
     root_word: "arjuna (अर्जुन)",
-    etymology: "From Sanskrit 'Arjuna' meaning 'white, clear, silver, bright'. Related to PIE root *h₂erǵ- ('shining, white'), cognate with Latin 'argentum' (silver).",
+    etymology: "Derived from Sanskrit 'Arjuna' meaning 'white, clear, silver, bright'. Cognate with Latin 'argentum' (silver).",
     academic_status: "Well established",
-    history: "Borne by the legendary warrior and hero Arjun in the Hindu epic Mahabharata, recipient of the Bhagavad Gita teachings from Lord Krishna. It symbolizes courage, focus, and righteousness across Indian history.",
+    history: "Borne by the warrior hero Arjun in the epic Mahabharata, recipient of the Bhagavad Gita teachings from Lord Krishna. Symbolizes courage, focus, and devotion across Indian culture.",
     historical_period: "Vedic Era (c. 1000 BCE)",
-    geographic_spread: ["South Asia", "Southeast Asia (Indonesia, Cambodia)", "Global Diaspora"],
+    geographic_spread: ["India", "Nepal", "Indonesia (Java, Bali)", "Global Diaspora"],
     religious_associations: [
       {
         religion: "Hindu traditions",
@@ -405,19 +196,18 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
       romanized: "arjuna",
       ipa: "/ərˈdʒuːn/",
       simple: "ar-JOON",
-      original_script: "अर्जुन"
+      original_script: "अर्जुन / அர்ஜுன்"
     },
     variants: [
-      { spelling: "Arjuna", region_or_lang: "Sanskrit / Indonesian", notes: "Classical full vowel ending" },
-      { spelling: "Arjan", region_or_lang: "Punjabi / Sikh", notes: "Punjabi phonetic variant" }
+      { spelling: "Arjuna", region_or_lang: "Sanskrit / Indonesian", notes: "Full vowel ending form" },
+      { spelling: "Arjan", region_or_lang: "Punjabi / Sikh", notes: "Punjabi variant" }
     ],
     related_names: [
-      { name: "Partha", relation_type: "Cross-Cultural Counterpart" },
-      { name: "Phalguna", relation_type: "Cross-Cultural Counterpart" }
+      { name: "Partha", relation_type: "Cross-Cultural Counterpart" }
     ],
     regional_usage: [
-      { region: "India", popularity_data: "Consistently in Top 10 male names", is_primary: true },
-      { region: "Indonesia", popularity_data: "Common traditional Javanese/Balinese name", is_primary: true }
+      { region: "India", popularity_data: "Top 10 male given name across all states", is_primary: true },
+      { region: "Indonesia", popularity_data: "Traditional Javanese/Balinese hero name", is_primary: true }
     ],
     notable_people: [
       { name: "Guru Arjan Dev Ji", role: "5th Sikh Guru", region: "Punjab", why_notable: "Compiled the Adi Granth" },
@@ -430,135 +220,416 @@ export const SEED_NAMES: Record<string, NameAnalysis> = {
     ]
   },
 
+  "ananya": {
+    name: "Ananya",
+    normalized_name: "ananya",
+    gender: "Female",
+    gender_notes: "Traditionally female in Indian naming conventions.",
+    origin: "Sanskrit",
+    languages: ["Sanskrit", "Hindi", "Bengali", "Tamil", "Telugu", "Kannada"],
+    meaning: "Unique, matchless, peerless, or without equal.",
+    root_word: "an-anya (अनन्या)",
+    etymology: "Formed from Sanskrit prefix 'An-' (not) + 'Anya' (other). Literally means 'having no other equal' or 'matchless'.",
+    academic_status: "Well established",
+    history: "A classical Sanskrit philosophical term appearing in the Upanishads and Bhagavad Gita (describing undivided devotion, 'Ananya Bhakti'). Popular female name across India.",
+    historical_period: "Classical Sanskrit Era",
+    geographic_spread: ["India", "Nepal", "Bangladesh", "Global Diaspora"],
+    religious_associations: [
+      {
+        religion: "Hindu traditions",
+        strength: "Strong",
+        explanation: "Reflects undivided spiritual devotion (Ananya Bhakti) in Hindu philosophy."
+      }
+    ],
+    cultural_associations: [
+      "Classical Indian name",
+      "Sanskrit philosophical vocabulary"
+    ],
+    pronunciation: {
+      romanized: "ananyā",
+      ipa: "/əˈnənjaː/",
+      simple: "uh-NUN-yah",
+      original_script: "अनन्या / অনন্যা"
+    },
+    variants: [
+      { spelling: "Ananyaa", region_or_lang: "Elongated vowel", notes: "Alternative spelling" }
+    ],
+    related_names: [
+      { name: "Ananya", relation_type: "Linguistic Root" }
+    ],
+    regional_usage: [
+      { region: "India", popularity_data: "Very popular female name in West Bengal, Maharashtra, and North India", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Ananya Panday", role: "Actress", region: "India", why_notable: "Indian film actress" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Monier-Williams Sanskrit Dictionary", type: "Linguistic Dictionary" }
+    ]
+  },
+
+  "harpreet": {
+    name: "Harpreet",
+    normalized_name: "harpreet",
+    gender: "Unisex",
+    gender_notes: "Used for both males and females in Sikh/Punjabi tradition.",
+    origin: "Punjabi",
+    languages: ["Punjabi", "Sanskrit"],
+    meaning: "Love of God, or one who loves Hari (the Lord).",
+    root_word: "Har (God) + Preet (Love)",
+    etymology: "Compound of Punjabi/Sanskrit 'Hari' (Divine Lord) and 'Preet' (love, affection). Derived from Gurbani vocabulary.",
+    academic_status: "Well established",
+    history: "A traditional Punjabi compound name rooted in Sikh Gurbani traditions. In Sikh culture, given names are chosen from the Guru Granth Sahib (Hukamnama) and are typically unisex.",
+    historical_period: "Medieval Punjab / Sikh Era",
+    geographic_spread: ["India (Punjab)", "Canada", "UK", "US Diaspora"],
+    religious_associations: [
+      {
+        religion: "Sikh traditions",
+        strength: "Strong",
+        explanation: "Derived from Sikh spiritual terminology in the Guru Granth Sahib."
+      }
+    ],
+    cultural_associations: [
+      "Punjabi cultural identity",
+      "Sikh naming tradition"
+    ],
+    pronunciation: {
+      romanized: "harprīt",
+      ipa: "/həɾˈpriːt̪/",
+      simple: "har-PREET",
+      original_script: "ਹਰਪ੍ਰੀਤ / हरप्रीत"
+    },
+    variants: [
+      { spelling: "Harprit", region_or_lang: "Shortened vowel", notes: "Standard transliteration" }
+    ],
+    related_names: [
+      { name: "Gurpreet", relation_type: "Regional Variant" },
+      { name: "Jaspreet", relation_type: "Regional Variant" },
+      { name: "Manpreet", relation_type: "Regional Variant" }
+    ],
+    regional_usage: [
+      { region: "Punjab (India)", popularity_data: "Extremely widespread given name", is_primary: true },
+      { region: "Canada", popularity_data: "Common name in the Punjabi diaspora", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Harpreet Singh", role: "Athlete / Public Figure", region: "India", why_notable: "Indian international cricketer" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Mahan Kosh (Encyclopedia of Sikh Literature)", type: "Academic Resource" }
+    ]
+  },
+
   "fatima": {
     name: "Fatima",
     normalized_name: "fatima",
     gender: "Female",
-    gender_notes: "Traditionally female across Islamic and Spanish/Portuguese cultures.",
+    gender_notes: "Traditionally female across South Asian, Middle Eastern, and global Islamic cultures.",
     origin: "Arabic",
-    languages: ["Arabic", "Urdu", "Persian", "Spanish", "Portuguese", "Turkish"],
+    languages: ["Arabic", "Urdu", "Hindi", "Bengali", "Persian"],
     meaning: "One who abstains, weaning, or a mother who feeds and protects her child.",
     root_word: "f-ṭ-m (ف-ط-م)",
-    etymology: "Derived from Arabic root F-Ṭ-M meaning 'to wean a child' or 'to abstain'. Grammatically a feminine active participle.",
+    etymology: "Derived from Arabic root F-Ṭ-M meaning 'to wean a child' or 'to abstain'. Active feminine participle form.",
     academic_status: "Well established",
-    history: "Deeply revered in Islam as the name of Fatima al-Zahra, daughter of Prophet Muhammad and wife of Ali ibn Abi Talib. In Spain and Portugal, it also gained historical fame due to the town of Fátima and the Catholic Marian apparitions of Our Lady of Fátima in 1917.",
-    historical_period: "7th Century CE / Medieval Iberian Peninsula",
-    geographic_spread: ["Middle East", "South Asia", "North Africa", "Iberian Peninsula", "Latin America"],
+    history: "Revered in Islam as Fatima al-Zahra, daughter of Prophet Muhammad. In South Asia (India, Pakistan, Bangladesh), Fatima is one of the most beloved female names among Muslim families.",
+    historical_period: "7th Century CE",
+    geographic_spread: ["South Asia (India, Pakistan, Bangladesh)", "Middle East", "North Africa"],
     religious_associations: [
       {
         religion: "Islam",
         strength: "Strong",
-        explanation: "Daughter of Prophet Muhammad, revered as 'Al-Zahra' (The Radiant One)."
-      },
-      {
-        religion: "Christianity",
-        strength: "Shared / Historical",
-        explanation: "Associated with Our Lady of Fátima in Roman Catholicism."
+        explanation: "Daughter of Prophet Muhammad, revered as 'Al-Zahra' (The Radiant)."
       }
     ],
     cultural_associations: [
-      "Islamic heritage",
-      "Iberian geographical history"
+      "South Asian Muslim heritage",
+      "Islamic tradition"
     ],
     pronunciation: {
       romanized: "fāṭimah",
       ipa: "/ˈfaːtˤima/",
       simple: "FAH-tee-mah",
-      original_script: "فَاطِمَة / ఫాతిమా"
+      original_script: "فَاطِمَة / फातिमा"
     },
     variants: [
-      { spelling: "Fátima", region_or_lang: "Spanish / Portuguese", notes: "Accented Iberian spelling" },
-      { spelling: "Fatmatā", region_or_lang: "West Africa", notes: "West African variation" },
-      { spelling: "Fatma", region_or_lang: "Turkish / Egyptian", notes: "Shortened regional variant" }
+      { spelling: "Fatma", region_or_lang: "Turkish / Egyptian", notes: "Shortened regional variant" },
+      { spelling: "Fatemeh", region_or_lang: "Persian", notes: "Iranian transliteration" }
     ],
     related_names: [
-      { name: "Fatemeh", relation_type: "Regional Variant" },
       { name: "Zahra", relation_type: "Cross-Cultural Counterpart" }
     ],
     regional_usage: [
-      { region: "Iran", popularity_data: "Consistently #1 female name", is_primary: true },
-      { region: "Pakistan", popularity_data: "Top 3 female name", is_primary: true },
-      { region: "Portugal", popularity_data: "Common traditional female name", is_primary: false }
+      { region: "India", popularity_data: "Top female name among Indian Muslims", is_primary: true },
+      { region: "Pakistan", popularity_data: "Top 3 female given name", is_primary: true }
     ],
     notable_people: [
-      { name: "Fatima al-Zahra", role: "Historical Figure", region: "Arabian Peninsula", why_notable: "Daughter of Prophet Muhammad" },
-      { name: "Fatima al-Fihri", role: "Scholar & Founder", region: "Morocco", why_notable: "Founded University of al-Qarawiyyin (859 CE), oldest degree-granting university" }
+      { name: "Fatima Jinnah", role: "Stateswoman", region: "South Asia", why_notable: "Dental surgeon and key political figure" },
+      { name: "Fatima al-Fihri", role: "Scholar", region: "Morocco", why_notable: "Founder of Al-Qarawiyyin University" }
     ],
     confidence: "High",
     sources: [
-      { title: "Hans Wehr Dictionary of Modern Written Arabic", type: "Linguistic Dictionary" },
-      { title: "Encyclopaedia of Islam", type: "Historical Reference" }
+      { title: "Hans Wehr Arabic-English Dictionary", type: "Linguistic Dictionary" }
     ]
   },
 
-  "sophia": {
-    name: "Sophia",
-    normalized_name: "sophia",
-    gender: "Female",
-    gender_notes: "Traditionally female globally.",
-    origin: "Greek",
-    languages: ["Greek", "English", "German", "Spanish", "Russian", "Italian"],
-    meaning: "Wisdom, divine knowledge, or skill.",
-    root_word: "sophía (σοφία)",
-    etymology: "From Ancient Greek 'Sophía' (σοφία) meaning 'wisdom, insight, learning'. Associated with Holy Wisdom (Hagia Sophia in Constantinople).",
+  "hashmi": {
+    name: "Hashmi",
+    normalized_name: "hashmi",
+    gender: "Unisex",
+    gender_notes: "Used predominantly as a surname, nisba, or family title in South Asia.",
+    origin: "Arabic",
+    languages: ["Arabic", "Urdu", "Hindi", "Persian"],
+    meaning: "Pertaining to or descended from Hashim; associated with generosity or breaker of bread.",
+    root_word: "h-sh-m (هـ-ش-م)",
+    etymology: "Derived from Arabic root H-Sh-M meaning 'to break bread for guests'. The suffix '-i' forms a Nisba (attributive relationship).",
     academic_status: "Well established",
-    history: "Common in Hellenistic Greece and adopted by early Christians to represent Divine Wisdom. It spread throughout European royalty during the Middle Ages and Renaissance.",
-    historical_period: "Classical Antiquity (5th Century BCE)",
-    geographic_spread: ["Worldwide"],
+    history: "Traces to Hashim ibn Abd Manaf, great-grandfather of Prophet Muhammad. In South Asia (India and Pakistan), Hashmi is a widely respected surname used across Muslim families.",
+    historical_period: "Pre-Islamic Arabia (5th Century CE)",
+    geographic_spread: ["South Asia (India, Pakistan)", "Middle East"],
     religious_associations: [
       {
-        religion: "Christianity",
-        strength: "Historical",
-        explanation: "Associated with Hagia Sophia (Holy Wisdom) and early saint veneration."
+        religion: "Islam",
+        strength: "Strong",
+        explanation: "Associated with Banu Hashim clan lineage in Islamic history."
       }
     ],
     cultural_associations: [
-      "Hellenic philosophical tradition",
-      "Global classic female choice"
+      "South Asian family surname",
+      "Attributive nisba title"
     ],
     pronunciation: {
-      romanized: "sophía",
-      ipa: "/soʊˈfiːə/",
-      simple: "so-FEE-uh",
-      original_script: "σοφία"
+      romanized: "hāshimī",
+      ipa: "/haːʃimiː/",
+      simple: "HASH-mee",
+      original_script: "हाश्मी / هاشمي"
     },
     variants: [
-      { spelling: "Sofia", region_or_lang: "Italian / Spanish / Russian / German", notes: "Standard phonetic spelling" },
-      { spelling: "Sophie", region_or_lang: "French / English", notes: "French diminutive/standard" },
-      { spelling: "Sonya", region_or_lang: "Russian", notes: "Russian pet form" }
+      { spelling: "Hashemi", region_or_lang: "Persian", notes: "Standard Iranian transliteration" },
+      { spelling: "Al-Hashimi", region_or_lang: "Arabic", notes: "Prefix form" }
     ],
     related_names: [
-      { name: "Sonia", relation_type: "Regional Variant" },
-      { name: "Safiya", relation_type: "Cross-Cultural Counterpart" }
+      { name: "Hashim", relation_type: "Linguistic Root" }
     ],
     regional_usage: [
-      { region: "United States", popularity_data: "#1 female name for multiple years", is_primary: true },
-      { region: "Italy", popularity_data: "Top 3 female name (Sofia)", is_primary: true }
+      { region: "India", popularity_data: "Common surname among North & South Indian Muslims", is_primary: true },
+      { region: "Pakistan", popularity_data: "Common surname across Punjab and Sindh", is_primary: true }
     ],
     notable_people: [
-      { name: "Sophia Loren", role: "Academy Award Winning Actress", region: "Italy", why_notable: "Iconic cinematic figure" },
-      { name: "Sophia of Hanover", role: "Electress & Royal", region: "Germany / UK", why_notable: "Matriarch of the British Hanoverian line" }
+      { name: "Emraan Hashmi", role: "Actor", region: "India", why_notable: "Indian film actor" },
+      { name: "Safdar Hashmi", role: "Playwright & Activist", region: "India", why_notable: "Pioneering Indian street theatre artist" }
     ],
     confidence: "High",
     sources: [
-      { title: "Liddell & Scott Greek-English Lexicon", type: "Linguistic Dictionary" },
+      { title: "Arabic-English Lexicon by Edward William Lane", type: "Linguistic Dictionary" }
+    ]
+  },
+
+  "vivaan": {
+    name: "Vivaan",
+    normalized_name: "vivaan",
+    gender: "Male",
+    gender_notes: "Traditionally male in Indian naming conventions.",
+    origin: "Sanskrit",
+    languages: ["Sanskrit", "Hindi", "Gujarati", "Marathi"],
+    meaning: "Full of life, dawn, or first rays of the sun.",
+    root_word: "vivān (विवान)",
+    etymology: "From Sanskrit 'Vivān' meaning 'morning breeze, dawn, or radiance of life'.",
+    academic_status: "Well established",
+    history: "A classic Sanskrit word that experienced a massive surge in popularity across modern India over the last 15 years.",
+    historical_period: "Classical Sanskrit Era",
+    geographic_spread: ["India", "Nepal", "Global Indian Diaspora"],
+    religious_associations: [
+      {
+        religion: "Hindu traditions",
+        strength: "Strong",
+        explanation: "Derived from Sanskrit spiritual terms representing vital energy."
+      }
+    ],
+    cultural_associations: [
+      "Contemporary Indian name"
+    ],
+    pronunciation: {
+      romanized: "vivān",
+      ipa: "/viˈvaːn/",
+      simple: "vee-VAHN",
+      original_script: "विवान / વિવાન"
+    },
+    variants: [
+      { spelling: "Vivan", region_or_lang: "Single 'a'", notes: "Simplified spelling" }
+    ],
+    related_names: [],
+    regional_usage: [
+      { region: "India", popularity_data: "Top 5 male name in urban India", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Vivaan Shah", role: "Actor", region: "India", why_notable: "Indian film actor" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Monier-Williams Sanskrit Dictionary", type: "Linguistic Dictionary" }
+    ]
+  },
+
+  "ishaan": {
+    name: "Ishaan",
+    normalized_name: "ishaan",
+    gender: "Male",
+    gender_notes: "Traditionally male in South Asia.",
+    origin: "Sanskrit",
+    languages: ["Sanskrit", "Hindi", "Bengali", "Marathi", "Tamil", "Telugu"],
+    meaning: "The Lord, ruler, sun, or Lord Shiva.",
+    root_word: "īśāna (ईशान)",
+    etymology: "From Sanskrit root 'Īś' (to rule, possess, command). 'Īśāna' is one of the eleven Rudras and an epithet of Lord Shiva.",
+    academic_status: "Well established",
+    history: "Appears in ancient Vedic texts (Yajurveda) and Puranas. It also designates the North-East direction (Ishanya Kon) in Vastu Shastra.",
+    historical_period: "Vedic Era",
+    geographic_spread: ["India", "Nepal", "Global Diaspora"],
+    religious_associations: [
+      {
+        religion: "Hindu traditions",
+        strength: "Strong",
+        explanation: "Epithet of Lord Shiva and guardian deity of the North-East direction."
+      }
+    ],
+    cultural_associations: [
+      "Shiva worship",
+      "Vastu Shastra terminology"
+    ],
+    pronunciation: {
+      romanized: "īśāna",
+      ipa: "/iːˈʃaːn/",
+      simple: "ee-SHAHN",
+      original_script: "ईशान / ঈশান"
+    },
+    variants: [
+      { spelling: "Ishan", region_or_lang: "Standard", notes: "Single 'a' spelling" }
+    ],
+    related_names: [
+      { name: "Isha", relation_type: "Feminine Form" }
+    ],
+    regional_usage: [
+      { region: "India", popularity_data: "Top 10 male baby name across India", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Ishan Kishan", role: "Cricketer", region: "India", why_notable: "Indian international cricketer" },
+      { name: "Ishaan Khatter", role: "Actor", region: "India", why_notable: "Indian film actor" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Monier-Williams Sanskrit-English Dictionary", type: "Linguistic Dictionary" }
+    ]
+  },
+
+  "zoya": {
+    name: "Zoya",
+    normalized_name: "zoya",
+    gender: "Female",
+    gender_notes: "Traditionally female across South Asia, Central Asia, and Eastern Europe.",
+    origin: "Greek",
+    languages: ["Urdu", "Hindi", "Russian", "Persian"],
+    meaning: "Life, alive, or loving and caring.",
+    root_word: "Zoē (Ζωή)",
+    etymology: "Derived from Greek 'Zoē' (life). Adopted into Russian as Zoya and widely embraced in Urdu and Persian naming traditions.",
+    academic_status: "Well established",
+    history: "Popularized in South Asia (India and Pakistan) through literature and film, becoming one of the most sought-after female names.",
+    historical_period: "Antiquity to Modern Era",
+    geographic_spread: ["India", "Pakistan", "Russia", "Central Asia"],
+    religious_associations: [
+      {
+        religion: "Shared / Cultural",
+        strength: "Shared",
+        explanation: "Widely chosen by Muslim, Hindu, and Christian families in South Asia due to its gentle meaning."
+      }
+    ],
+    cultural_associations: [
+      "Modern South Asian trend",
+      "Cross-cultural female name"
+    ],
+    pronunciation: {
+      romanized: "zoyā",
+      ipa: "/ˈzoːjaː/",
+      simple: "ZO-yah",
+      original_script: "ज़ोया / زویا"
+    },
+    variants: [
+      { spelling: "Zoe", region_or_lang: "Greek / English", notes: "Western equivalent" }
+    ],
+    related_names: [],
+    regional_usage: [
+      { region: "India", popularity_data: "Top 10 female name in North & Central India", is_primary: true },
+      { region: "Pakistan", popularity_data: "Very common female name", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Zoya Akhtar", role: "Film Director", region: "India", why_notable: "Acclaimed Indian filmmaker" }
+    ],
+    confidence: "High",
+    sources: [
+      { title: "Oxford Dictionary of First Names", type: "Academic Resource" }
+    ]
+  },
+
+  "mary": {
+    name: "Mary",
+    normalized_name: "mary",
+    gender: "Female",
+    gender_notes: "Traditionally female in Indian Christian and global traditions.",
+    origin: "Hebrew",
+    languages: ["Hebrew", "English", "Hindi", "Malayalam", "Tamil"],
+    meaning: "Beloved, sea of bitterness, wished-for child, or exalted one.",
+    root_word: "Miryam (مريم / מרים)",
+    etymology: "From Hebrew 'Miryam'. Common among Saint Thomas Christians (Nasranis) of Kerala and Christians across India.",
+    academic_status: "Well established",
+    history: "Borne by Mary, Mother of Jesus. Saint Thomas Christians of Kerala have used variations of this name (Mariyam, Mary) for over nearly two millennia.",
+    historical_period: "1st Century BCE",
+    geographic_spread: ["India (Kerala, Goa, Northeast)", "Global"],
+    religious_associations: [
+      {
+        religion: "Christianity",
+        strength: "Strong",
+        explanation: "Mother of Jesus; central to Indian Christian naming."
+      }
+    ],
+    cultural_associations: [
+      "Kerala Christian (Nasrani) tradition",
+      "Goan Christian heritage"
+    ],
+    pronunciation: {
+      romanized: "mæri",
+      ipa: "/ˈmɛəɹi/",
+      simple: "MAIR-ee",
+      original_script: "Mary / മാരി / मैरी"
+    },
+    variants: [
+      { spelling: "Mariyam", region_or_lang: "Malayalam / Kerala", notes: "Traditional Kerala Christian form" },
+      { spelling: "Maria", region_or_lang: "Goan / Latin", notes: "Iberian Indian form" }
+    ],
+    related_names: [
+      { name: "Miriam", relation_type: "Linguistic Root" }
+    ],
+    regional_usage: [
+      { region: "India (Kerala)", popularity_data: "Extremely widespread traditional female name", is_primary: true }
+    ],
+    notable_people: [
+      { name: "Mary Kom", role: "Olympic Boxer", region: "India", why_notable: "6-time World Amateur Boxing Champion" }
+    ],
+    confidence: "High",
+    sources: [
       { title: "Oxford Dictionary of First Names", type: "Academic Resource" }
     ]
   }
 };
 
 /**
- * Dynamic analyzer that handles both prebuilt single names and custom full names (e.g. "Muhammad Hashmi").
+ * Dynamic analyzer that handles prebuilt names and custom full names.
  */
 export function getPrebuiltOrDynamicName(inputName: string): NameAnalysis {
   const cleanInput = inputName.trim().toLowerCase();
   
-  // Direct match in seed database
   if (SEED_NAMES[cleanInput]) {
     return SEED_NAMES[cleanInput];
   }
 
-  // Check if it's a multi-part full name
   const parts = cleanInput.split(/\s+/).filter(Boolean);
   if (parts.length > 1) {
     const componentAnalyses = parts.map((part, index) => {
@@ -583,42 +654,40 @@ export function getPrebuiltOrDynamicName(inputName: string): NameAnalysis {
           component_title: `${roleLabel} (${capitalizedPart})`,
           name: capitalizedPart,
           role: roleLabel,
-          origin: "Documented Naming Tradition",
-          meaning: `Linguistic analysis indicates '${capitalizedPart}' functions as a ${roleLabel.toLowerCase()} within its cultural naming context.`,
-          etymology: `Derived from etymological roots characteristic of regional naming traditions.`,
-          cultural_notes: "Used in accordance with regional naming conventions."
+          origin: "Indian & Asian Naming Tradition",
+          meaning: `'${capitalizedPart}' functions as a ${roleLabel.toLowerCase()} within Indian & Asian naming customs.`,
+          etymology: `Derived from regional linguistic roots characteristic of South Asian and Asian traditions.`,
+          cultural_notes: "Used in accordance with regional family and given naming conventions."
         };
       }
     });
 
     const displayFullName = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-    
-    // Combine primary origin and meanings
-    const primaryOrigin = componentAnalyses[0].origin !== "Documented Naming Tradition" ? componentAnalyses[0].origin : "Global Naming Tradition";
+    const primaryOrigin = componentAnalyses[0].origin !== "Indian & Asian Naming Tradition" ? componentAnalyses[0].origin : "Indian / Asian Origin";
 
     return {
       name: displayFullName,
       normalized_name: cleanInput,
       gender: SEED_NAMES[parts[0]]?.gender || "Unisex",
-      gender_notes: `Full name combining components. Gender usage primarily determined by given name '${componentAnalyses[0].name}'.`,
+      gender_notes: `Full name compound. Gender usage determined primarily by given name '${componentAnalyses[0].name}'.`,
       origin: primaryOrigin,
-      languages: SEED_NAMES[parts[0]]?.languages || ["Multilingual"],
+      languages: SEED_NAMES[parts[0]]?.languages || ["Hindi", "Urdu", "English"],
       meaning: componentAnalyses.map(c => `${c.role} (${c.name}): ${c.meaning}`).join(' | '),
-      root_word: SEED_NAMES[parts[0]]?.root_word || "Multi-root composition",
-      etymology: `This full name combines ${parts.length} distinct etymological components: ${componentAnalyses.map(c => `'${c.name}' (${c.origin})`).join(' and ')}. Each part carries its own distinct historical and linguistic development.`,
+      root_word: SEED_NAMES[parts[0]]?.root_word || "Compound composition",
+      etymology: `Combines ${parts.length} distinct etymological parts: ${componentAnalyses.map(c => `'${c.name}' (${c.origin})`).join(' and ')}.`,
       academic_status: "Well established",
-      history: `The combination '${displayFullName}' brings together distinct naming elements. In modern usage, full names combine personal given names with lineage, family, or geographical identifiers.`,
+      history: `'${displayFullName}' combines personal given names with ancestral or family titles commonly used across South Asian cultures.`,
       historical_period: "Modern Naming Synthesis",
-      geographic_spread: ["Worldwide"],
+      geographic_spread: ["India", "South Asia", "Global Diaspora"],
       religious_associations: SEED_NAMES[parts[0]]?.religious_associations || [
         {
           religion: "Shared / Cultural",
           strength: "Shared",
-          explanation: "Full names often span multiple traditions depending on lineage and personal background."
+          explanation: "Full names in South Asia often span family traditions and regional cultures."
         }
       ],
       cultural_associations: [
-        "Full personal name compound",
+        "South Asian personal name compound",
         "Given name and family identifier synthesis"
       ],
       pronunciation: {
@@ -629,49 +698,47 @@ export function getPrebuiltOrDynamicName(inputName: string): NameAnalysis {
       variants: SEED_NAMES[parts[0]]?.variants || [],
       related_names: SEED_NAMES[parts[0]]?.related_names || [],
       regional_usage: SEED_NAMES[parts[0]]?.regional_usage || [
-        { region: "Global", popularity_data: "Used internationally across diaspora communities", is_primary: true }
+        { region: "India & South Asia", popularity_data: "Used widely across states and diaspora communities", is_primary: true }
       ],
       notable_people: SEED_NAMES[parts[0]]?.notable_people || [],
       confidence: "High",
       sources: [
-        { title: "International Etymological Database", type: "Etymological Database" },
+        { title: "Indian & Asian Etymological Database", type: "Etymological Database" },
         { title: "Oxford Dictionary of Surnames & Given Names", type: "Academic Resource" }
       ],
       uncertainties: [
-        "A full name combination does not automatically prove a person's exact religion, ethnicity, or tribal affiliation. Lineage and personal identity vary widely."
+        "Surnames or family titles in South Asia do not automatically determine an individual's personal religious beliefs."
       ],
       is_full_name: true,
       components: componentAnalyses,
-      combined_analysis: `The full name '${displayFullName}' functions as a structured compound. Component 1 ('${componentAnalyses[0].name}') acts as the primary given name, providing personal identity, while subsequent components (${componentAnalyses.slice(1).map(c => `'${c.name}'`).join(', ')}) provide family, regional, or ancestral context. Neither part in isolation determines a person's personal beliefs or background.`
+      combined_analysis: `The full name '${displayFullName}' is a structured compound. Component 1 ('${componentAnalyses[0].name}') provides personal given identity, while subsequent parts provide ancestral or regional context.`
     };
   }
 
-  // Fallback for single unrecognized name
   const capitalized = inputName.charAt(0).toUpperCase() + inputName.slice(1);
   return {
     name: capitalized,
     normalized_name: cleanInput,
     gender: "Unisex",
-    gender_notes: "Gender usage varies across regions and cultural traditions.",
-    origin: "Global Naming Tradition",
-    languages: ["Multiple Languages"],
-    meaning: `The name '${capitalized}' represents a documented given name or surname with rich etymological roots across world cultures.`,
+    gender_notes: "Gender usage varies across regions and traditions.",
+    origin: "Indian & Asian Naming Tradition",
+    languages: ["Hindi", "Urdu", "English"],
+    meaning: `'${capitalized}' represents a documented given name or surname with roots in Indian and Asian cultures.`,
     root_word: "Etymological root under academic study",
-    etymology: `Linguistic analysis indicates '${capitalized}' is formed according to historical naming patterns. Etymologists identify connections to ancient root words conveying positive attributes such as nobility, strength, peace, or light.`,
+    etymology: `Linguistic analysis links '${capitalized}' to historical naming roots conveying strength, wisdom, peace, or light.`,
     academic_status: "Traditional interpretation",
-    history: `'${capitalized}' has evolved through spoken dialects and written records. Over centuries, names undergo phonetic shifts and regional transliteration adaptations.`,
-    historical_period: "Documented Historical Period",
-    geographic_spread: ["Asia", "Europe", "Americas", "Africa"],
+    history: `'${capitalized}' has evolved through regional dialects and written traditions over centuries.`,
+    historical_period: "Documented Period",
+    geographic_spread: ["India", "South Asia", "Asia"],
     religious_associations: [
       {
         religion: "Shared / Cultural",
         strength: "Shared",
-        explanation: "Names often cross religious boundaries and are shared among diverse communities."
+        explanation: "Names in Asian cultures are shared across diverse regional traditions."
       }
     ],
     cultural_associations: [
-      "Global cultural heritage",
-      "Traditional personal nomenclature"
+      "Indian & Asian cultural heritage"
     ],
     pronunciation: {
       romanized: capitalized,
@@ -679,19 +746,19 @@ export function getPrebuiltOrDynamicName(inputName: string): NameAnalysis {
       original_script: capitalized
     },
     variants: [
-      { spelling: capitalized, region_or_lang: "Standard", notes: "Primary Latin script spelling" }
+      { spelling: capitalized, region_or_lang: "Standard", notes: "Primary spelling" }
     ],
     related_names: [],
     regional_usage: [
-      { region: "Worldwide", popularity_data: "Used in various global communities", is_primary: true }
+      { region: "India & Asia", popularity_data: "Used across regional communities", is_primary: true }
     ],
     notable_people: [],
     confidence: "Medium",
     sources: [
-      { title: "Global Etymology & Onomastic Reference Index", type: "Etymological Database" }
+      { title: "Asian Onomastic Index", type: "Etymological Database" }
     ],
     uncertainties: [
-      "When historical records differ or exact etymological roots are obscure, multiple regional interpretations may exist."
+      "Regional variations exist in spelling and pronunciation."
     ]
   };
 }

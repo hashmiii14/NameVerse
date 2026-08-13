@@ -4,13 +4,25 @@ import React from 'react';
 import Link from 'next/link';
 import { slugifyName } from '@/lib/utils/slugify';
 
-const FEATURED_TAGS = ['Muhammad', 'Aarav', 'Mary', 'Sophia'];
+const ASIAN_POPULAR_TAGS = [
+  'Aarav',
+  'Muhammad',
+  'Aadhya',
+  'Arjun',
+  'Ananya',
+  'Fatima',
+  'Harpreet',
+  'Vivaan',
+  'Ishaan',
+  'Zoya',
+  'Hashmi'
+];
 
 export const QuickFilters: React.FC = () => {
   return (
     <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
-      <span className="font-semibold text-slate-400">Popular:</span>
-      {FEATURED_TAGS.map((name) => (
+      <span className="font-semibold text-slate-400">Trending Indian & Asian Names:</span>
+      {ASIAN_POPULAR_TAGS.map((name) => (
         <Link
           key={name}
           href={`/name/${slugifyName(name)}`}
