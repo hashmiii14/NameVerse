@@ -20,7 +20,7 @@ export const PronunciationCard: React.FC<Props> = ({ data }) => {
     }
 
     window.speechSynthesis.cancel();
-    const textToSpeak = data.pronunciation?.audio_script || data.name;
+    const textToSpeak = data.pronunciation?.audio_script || data.pronunciation?.simple || data.name;
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.rate = 0.9;
     

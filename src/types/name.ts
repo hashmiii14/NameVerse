@@ -81,6 +81,7 @@ export interface NameAnalysis {
     ipa?: string;
     simple: string;
     original_script?: string;
+    audio_script?: string;
   };
   variants: VariantSpelling[];
   related_names: RelatedName[];
