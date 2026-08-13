@@ -16,7 +16,7 @@ export type GenderType =
 
 export interface ReligiousAssociation {
   religion: string;
-  strength: 'Strong' | 'Moderate' | 'Shared' | 'Historical' | 'Modern';
+  strength: 'Strong' | 'Moderate' | 'Shared' | 'Historical' | 'Modern' | 'Shared / Historical';
   explanation: string;
 }
 
