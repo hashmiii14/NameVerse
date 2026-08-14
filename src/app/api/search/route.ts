@@ -8,11 +8,12 @@ export async function GET(request: Request) {
   const origin = searchParams.get('origin') || 'All';
   const religion = searchParams.get('religion') || 'All';
   const language = searchParams.get('language') || 'All';
+  const community = searchParams.get('community') || 'All';
   const letter = searchParams.get('letter') || 'All';
-  const limit = parseInt(searchParams.get('limit') || '50', 10);
+  const limit = parseInt(searchParams.get('limit') || '48', 10);
   const offset = parseInt(searchParams.get('offset') || '0', 10);
 
-  // If searching for an exact slug lookup
+  // Exact slug lookup
   const slug = searchParams.get('slug');
   if (slug) {
     const item = getNameBySlug(slug);
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
   }
 
   const { results, total } = queryNamesServer(
-    { searchQuery: q, gender, origin, religion, language, letter },
+    { searchQuery: q, gender, origin, religion, language, community, letter },
     Math.min(limit, 200),
     offset
   );

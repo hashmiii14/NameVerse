@@ -22,7 +22,7 @@ function loadDataset(): NameRecord[] {
     cachedNames = namesData as NameRecord[];
   }
 
-  // Build O(1) map
+  // Build O(1) slug map
   cachedSlugMap = new Map<string, NameRecord>();
   if (cachedNames) {
     for (const item of cachedNames) {
@@ -73,7 +73,7 @@ export function getAllSlugs(): string[] {
 /**
  * Server-side search & filter utility
  */
-export function queryNamesServer(options: FilterOptions, limit = 50, offset = 0): { results: NameRecord[]; total: number } {
+export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0): { results: NameRecord[]; total: number } {
   let list = loadDataset();
 
   if (options.searchQuery && options.searchQuery.trim()) {
@@ -81,7 +81,8 @@ export function queryNamesServer(options: FilterOptions, limit = 50, offset = 0)
     list = list.filter(item =>
       item.name.toLowerCase().includes(q) ||
       item.slug.includes(q) ||
-      item.meaning.toLowerCase().includes(q)
+      item.meaning.toLowerCase().includes(q) ||
+      (item.origin && item.origin.toLowerCase().includes(q))
     );
   }
 
@@ -102,6 +103,15 @@ export function queryNamesServer(options: FilterOptions, limit = 50, offset = 0)
   if (options.language && options.language !== 'All') {
     list = list.filter(item =>
       item.language && item.language.some(l => l.toLowerCase().includes(options.language!.toLowerCase()))
+    );
+  }
+
+  if (options.community && options.community !== 'All') {
+    const comm = options.community.toLowerCase();
+    list = list.filter(item =>
+      (item.community && item.community.some(c => c.toLowerCase().includes(comm))) ||
+      (item.tags && item.tags.some(t => t.toLowerCase().includes(comm))) ||
+      (item.description && item.description.toLowerCase().includes(comm))
     );
   }
 

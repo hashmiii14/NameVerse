@@ -21,6 +21,7 @@ export interface NameRecord {
   similar_names?: string[];
   description: string;
   tags: string[];
+  community?: string[];
 }
 
 export interface SearchIndexItem {
@@ -39,6 +40,7 @@ export interface FilterOptions {
   origin?: string;
   religion?: string;
   language?: string;
+  community?: string;
   letter?: string;
   searchQuery?: string;
 }

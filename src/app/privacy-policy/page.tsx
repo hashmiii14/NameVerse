@@ -1,87 +1,72 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowLeft, Shield } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | NameMeaning.fun',
-  description: 'Privacy Policy for NameMeaning.fun explaining data collection, cookies, analytics, and Google AdSense compliance.',
+  title: 'Privacy Policy — NameMeaning.fun',
+  description: 'Plain-English privacy policy for NameMeaning.fun covering search queries, server logging, and data handling practices.',
 };
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-8">
       
-      <div className="space-y-2 border-b border-slate-200 pb-5">
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-          Privacy Policy
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500">
-          Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-        </p>
+      {/* Navigation */}
+      <div className="flex items-center justify-between text-xs text-zinc-500">
+        <nav className="flex items-center gap-1.5 font-medium">
+          <Link href="/" className="hover:text-zinc-900 transition-colors">Home</Link>
+          <span>/</span>
+          <span className="font-bold text-zinc-900">Privacy Policy</span>
+        </nav>
+        <Link href="/" className="inline-flex items-center gap-1 font-semibold text-zinc-500 hover:text-zinc-900">
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to Home</span>
+        </Link>
       </div>
 
-      <div className="space-y-6 text-xs sm:text-sm text-slate-700 leading-relaxed">
-        
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">1. Introduction</h2>
-          <p>
-            Welcome to <strong>NameMeaning.fun</strong> (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We respect your privacy and are committed to protecting any information collected through your use of our website. This Privacy Policy outlines the types of information we collect, how it is used, and your choices regarding your data.
+      {/* Article */}
+      <article className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">
+        <div className="space-y-1 border-b border-zinc-100 pb-5">
+          <h1 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight">
+            Privacy Policy
+          </h1>
+          <p className="text-xs text-zinc-500">
+            Last Updated: February 2026 · NameMeaning.fun
           </p>
-        </section>
+        </div>
 
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">2. Information We Collect</h2>
+        <div className="space-y-4 text-xs sm:text-sm text-zinc-600 leading-relaxed">
           <p>
-            NameMeaning.fun is a free, public name dictionary. We do not require account registration, passwords, or personal user logins.
+            At <strong className="text-zinc-900">NameMeaning.fun</strong>, we respect your privacy. This Privacy Policy outlines our straightforward data handling practices.
           </p>
-          <ul className="list-disc pl-5 space-y-1 text-slate-600">
-            <li><strong>Search Queries:</strong> Names typed into the search bar are processed in real-time to return relevant meanings and results.</li>
-            <li><strong>Technical & Usage Data:</strong> Standard web server logs may record your IP address, browser type, operating system, referring URLs, and pages visited.</li>
+
+          <h2 className="text-base font-bold text-zinc-900 pt-2">1. Information We Collect</h2>
+          <p>
+            When you use NameMeaning.fun:
+          </p>
+          <ul className="list-disc list-inside space-y-1 pl-2">
+            <li><strong>Search Queries:</strong> Search terms typed into the search bar are processed on our servers to fetch matching etymological records.</li>
+            <li><strong>Standard Web Server Logs:</strong> Like virtually all websites, standard server request headers (IP address, user agent, requested URL timestamp) are temporarily logged by server hosting providers (e.g. Vercel) for performance and security monitoring.</li>
+            <li><strong>Support &amp; Contact:</strong> If you email us at <a href="mailto:mdhashmi955@gmail.com" className="text-emerald-700 underline font-semibold">mdhashmi955@gmail.com</a>, we retain your email address and message contents solely to respond to your inquiry.</li>
           </ul>
-        </section>
 
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">3. Cookies & Local Storage</h2>
+          <h2 className="text-base font-bold text-zinc-900 pt-2">2. Cookies &amp; Local Storage</h2>
           <p>
-            We may use cookies and browser local storage to enhance site navigation, remember user preferences (such as recent search history), and analyze site performance.
+            We keep browser client state minimal. We do not track users across third-party websites or sell personal data to third parties.
           </p>
-        </section>
 
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">4. Advertising & Google AdSense</h2>
+          <h2 className="text-base font-bold text-zinc-900 pt-2">3. Payment &amp; Voluntary Support</h2>
           <p>
-            NameMeaning.fun uses Google AdSense to serve advertisements.
+            Voluntary contributions to NameMeaning.fun are made via direct UPI apps. We do not collect or store credit card numbers, banking passwords, or financial account credentials.
           </p>
-          <ul className="list-disc pl-5 space-y-1 text-slate-600">
-            <li>Google uses cookies (such as the DART cookie) to serve ads based on users&apos; visits to our site and other sites on the Internet.</li>
-            <li>Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Ads Settings</a>.</li>
-          </ul>
-        </section>
 
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">5. Third-Party Analytics</h2>
+          <h2 className="text-base font-bold text-zinc-900 pt-2">4. Contact Us</h2>
           <p>
-            We may use third-party analytics services (such as Google Analytics) to monitor website traffic, aggregate user engagement, and optimize site speed and performance. These tools collect information anonymously.
+            If you have questions regarding this policy, feel free to email us at <a href="mailto:mdhashmi955@gmail.com" className="text-emerald-700 underline font-semibold">mdhashmi955@gmail.com</a>.
           </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">6. Data Protection & Security</h2>
-          <p>
-            We implement standard administrative and technical safeguards to protect information against unauthorized access, loss, or alteration.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">7. Contact Information</h2>
-          <p>
-            If you have questions regarding this Privacy Policy, please contact us at:
-          </p>
-          <p className="font-semibold text-slate-900">
-            Email: <a href="mailto:mdhashmi955@gmail.com" className="text-emerald-600 hover:underline">mdhashmi955@gmail.com</a>
-          </p>
-        </section>
-
-      </div>
+        </div>
+      </article>
 
     </div>
   );
