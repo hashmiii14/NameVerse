@@ -73,16 +73,21 @@ export function getNameBySlug(slug: string): NameRecord | undefined {
   const clean = slug.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
   const firstChar = clean.charAt(0);
 
-  // 1. Check target letter chunk
   if (firstChar >= 'a' && firstChar <= 'z') {
     const list = loadLetterDataset(firstChar);
     const item = list.find(n => n.slug.toLowerCase() === clean || n.name.toLowerCase() === slug.toLowerCase());
     if (item) return item;
   }
 
-  // 2. Check popular fallback chunk
   const popList = loadPopularDataset();
   return popList.find(n => n.slug.toLowerCase() === clean || n.name.toLowerCase() === slug.toLowerCase());
+}
+
+/**
+ * Get all names in popular dataset
+ */
+export function getAllNames(): NameRecord[] {
+  return loadPopularDataset();
 }
 
 /**
@@ -101,7 +106,6 @@ export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0)
   const q = (options.searchQuery && options.searchQuery.trim()) ? options.searchQuery.toLowerCase().trim() : null;
   const letter = (options.letter && options.letter !== 'All') ? options.letter.toLowerCase() : null;
 
-  // Determine target partition chunk
   if (letter && letter >= 'a' && letter <= 'z') {
     dataset = loadLetterDataset(letter);
   } else if (q) {
