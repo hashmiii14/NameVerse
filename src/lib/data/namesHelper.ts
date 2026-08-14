@@ -1,50 +1,84 @@
 import { NameRecord, FilterOptions } from '@/types/name';
-import namesData from './names.json';
+import fs from 'fs';
+import path from 'path';
 
-const ALL_NAMES: NameRecord[] = namesData as NameRecord[];
+let cachedNames: NameRecord[] | null = null;
+let cachedSlugMap: Map<string, NameRecord> | null = null;
 
-// Fast Map for O(1) slug lookup
-const NAMES_BY_SLUG = new Map<string, NameRecord>();
+function loadDataset(): NameRecord[] {
+  if (cachedNames) return cachedNames;
 
-ALL_NAMES.forEach(item => {
-  if (item && item.slug) {
-    NAMES_BY_SLUG.set(item.slug.toLowerCase(), item);
-    // Also index normalized simple string if different
-    const simpleName = item.name.toLowerCase().trim();
-    if (!NAMES_BY_SLUG.has(simpleName)) {
-      NAMES_BY_SLUG.set(simpleName, item);
+  try {
+    const filePath = path.join(process.cwd(), 'src', 'lib', 'data', 'names.json');
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      cachedNames = JSON.parse(raw) as NameRecord[];
+    } else {
+      // Fallback require
+      cachedNames = require('./names.json') as NameRecord[];
+    }
+  } catch (err) {
+    console.error("Error reading names.json:", err);
+    try {
+      cachedNames = require('./names.json') as NameRecord[];
+    } catch (fallbackErr) {
+      cachedNames = [];
     }
   }
-});
+
+  // Build O(1) map
+  cachedSlugMap = new Map<string, NameRecord>();
+  if (cachedNames) {
+    for (const item of cachedNames) {
+      if (item && item.slug) {
+        cachedSlugMap.set(item.slug.toLowerCase(), item);
+        const simpleName = item.name.toLowerCase().trim();
+        if (!cachedSlugMap.has(simpleName)) {
+          cachedSlugMap.set(simpleName, item);
+        }
+      }
+    }
+  }
+
+  return cachedNames || [];
+}
+
+function getSlugMap(): Map<string, NameRecord> {
+  if (!cachedSlugMap) {
+    loadDataset();
+  }
+  return cachedSlugMap || new Map();
+}
 
 /**
  * Fetch a single name record by its slug or raw name in O(1) time
  */
 export function getNameBySlug(slug: string): NameRecord | undefined {
   if (!slug) return undefined;
+  const map = getSlugMap();
   const clean = slug.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
-  return NAMES_BY_SLUG.get(clean) || NAMES_BY_SLUG.get(slug.toLowerCase().trim());
+  return map.get(clean) || map.get(slug.toLowerCase().trim());
 }
 
 /**
  * Get all names in the master dataset
  */
 export function getAllNames(): NameRecord[] {
-  return ALL_NAMES;
+  return loadDataset();
 }
 
 /**
  * Get list of all valid indexable slugs for dynamic static params & sitemap
  */
 export function getAllSlugs(): string[] {
-  return ALL_NAMES.map(item => item.slug);
+  return loadDataset().map(item => item.slug);
 }
 
 /**
  * Server-side search & filter utility
  */
 export function queryNamesServer(options: FilterOptions, limit = 50, offset = 0): { results: NameRecord[]; total: number } {
-  let list = ALL_NAMES;
+  let list = loadDataset();
 
   if (options.searchQuery && options.searchQuery.trim()) {
     const q = options.searchQuery.toLowerCase().trim();
@@ -65,13 +99,13 @@ export function queryNamesServer(options: FilterOptions, limit = 50, offset = 0)
 
   if (options.religion && options.religion !== 'All') {
     list = list.filter(item => 
-      item.religion.some(r => r.toLowerCase().includes(options.religion!.toLowerCase()))
+      item.religion && item.religion.some(r => r.toLowerCase().includes(options.religion!.toLowerCase()))
     );
   }
 
   if (options.language && options.language !== 'All') {
     list = list.filter(item =>
-      item.language.some(l => l.toLowerCase().includes(options.language!.toLowerCase()))
+      item.language && item.language.some(l => l.toLowerCase().includes(options.language!.toLowerCase()))
     );
   }
 

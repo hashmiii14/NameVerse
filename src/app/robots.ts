@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://www.namemeaning.fun/sitemap.xml',
+    sitemap: 'https://name-verse.vercel.app/sitemap.xml',
   };
 }

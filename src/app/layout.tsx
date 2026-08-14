@@ -8,14 +8,14 @@ import { Footer } from '@/components/layout/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NameMeaning.fun - Meaning, Origin & History of Personal Names',
-  description: 'Discover the exact meaning, origin, history, gender, pronunciation, and cultural background of personal names globally.',
-  keywords: ['name meaning', 'name origin', 'etymology', 'arabic names', 'sanskrit names', 'hebrew names', 'christian names', 'muslim names', 'hindu names', 'full name analysis', 'namemeaning'],
-  authors: [{ name: 'NameMeaning Team' }],
-  metadataBase: new URL('https://namemeaning.fun'),
+  title: 'NameVerse — Search Name Meanings, Origins & Cultural Etymologies',
+  description: 'Explore authentic name meanings, origins, languages, gender usage, and cultural traditions across Islamic, Arabic, Urdu, Persian, Indian, Sanskrit, Hebrew, and global naming heritages.',
+  keywords: ['nameverse', 'name meaning', 'name origin', 'etymology', 'arabic girl names', 'muslim girl names', 'urdu names', 'persian names', 'sanskrit names', 'muslim boy names'],
+  authors: [{ name: 'NameVerse Team' }],
+  metadataBase: new URL('https://name-verse.vercel.app'),
   openGraph: {
-    title: 'NameMeaning.fun - Deep Personal Name Etymology',
-    description: 'Discover the meaning, origin, and history behind any personal name globally.',
+    title: 'NameVerse — Name Discovery Engine',
+    description: 'Find a name with meaning across Islamic, Arabic, Urdu, Persian, Indian, and global naming traditions.',
     type: 'website',
   },
 };
@@ -30,11 +30,11 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
-      <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
+      <body className={`${inter.className} bg-slate-50 text-slate-900 antialiased`}>
         <LanguageProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-1 w-full overflow-x-hidden">
+            <main className="flex-1 w-full overflow-x-hidden grid-background">
               {children}
             </main>
             <Footer />
