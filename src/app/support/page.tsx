@@ -1,12 +1,8 @@
-import React from 'react';
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { Heart, QrCode, ArrowLeft, Copy } from 'lucide-react';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Support NameMeaning.fun — Keep the Project Running',
-  description: 'Support NameMeaning.fun if you enjoy exploring personal name meanings, etymologies, and historical roots.',
-};
+import React from 'react';
+import Link from 'next/link';
+import { Heart, QrCode, ArrowLeft } from 'lucide-react';
 
 export default function SupportPage() {
   const upiId = '8595018458@ptsbi';
@@ -77,13 +73,15 @@ export default function SupportPage() {
               onError={(e) => {
                 // Fallback placeholder if image not uploaded yet
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = `
-                  <div className="flex flex-col items-center justify-center text-zinc-400 space-y-1">
-                    <svg class="w-10 h-10 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    <span class="text-[11px] font-bold text-zinc-500">Place Real QR Image At</span>
-                    <code class="text-[10px] font-mono text-zinc-400">/public/images/support-qr.png</code>
-                  </div>
-                `;
+                if (e.currentTarget.parentElement) {
+                  e.currentTarget.parentElement.innerHTML = `
+                    <div className="flex flex-col items-center justify-center text-zinc-400 space-y-1">
+                      <svg class="w-10 h-10 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                      <span class="text-[11px] font-bold text-zinc-500">Place Real QR Image At</span>
+                      <code class="text-[10px] font-mono text-zinc-400">/public/images/support-qr.png</code>
+                    </div>
+                  `;
+                }
               }}
             />
           </div>
