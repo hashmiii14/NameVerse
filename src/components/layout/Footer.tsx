@@ -3,54 +3,27 @@ import Link from 'next/link';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-slate-900 text-slate-300 border-t border-slate-800 pt-8 pb-8 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="w-full bg-zinc-900 text-zinc-300 border-t border-zinc-800 py-10 mt-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-800 pb-6 text-xs text-zinc-400 font-medium">
           
-          {/* Brand */}
-          <div className="space-y-2">
-            <span className="font-black text-xl text-white tracking-tight">
-              NameMeaning<span className="text-emerald-400">.fun</span>
-            </span>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              A clean, fast, multicultural name meaning dictionary and discovery tool to explore meanings, origins, languages, and cultural backgrounds across 50,000+ names.
-            </p>
-          </div>
+          <Link href="/" className="font-black text-lg text-white tracking-tight">
+            NameMeaning<span className="text-emerald-400">.fun</span>
+          </Link>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="font-bold text-xs text-white uppercase tracking-wider mb-3">
-              Navigation
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li><Link href="/" className="hover:text-emerald-400 transition-colors">Home</Link></li>
-              <li><Link href="/find-names" className="hover:text-emerald-400 transition-colors">Find Names</Link></li>
-              <li><Link href="/about-us" className="hover:text-emerald-400 transition-colors">About Us</Link></li>
-            </ul>
-          </div>
-
-          {/* Legal & Contact */}
-          <div>
-            <h4 className="font-bold text-xs text-white uppercase tracking-wider mb-3">
-              Information & Support
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li><Link href="/privacy-policy" className="hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/contact" className="hover:text-emerald-400 transition-colors">Contact Us</Link></li>
-              <li>
-                <a href="mailto:mdhashmi955@gmail.com" className="hover:text-emerald-400 transition-colors">
-                  mdhashmi955@gmail.com
-                </a>
-              </li>
-            </ul>
-          </div>
+          <nav className="flex items-center gap-5">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/find-names" className="hover:text-white transition-colors">Directory</Link>
+            <Link href="/about-us" className="hover:text-white transition-colors">About</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+          </nav>
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-6 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© {new Date().getFullYear()} NameMeaning.fun. All rights reserved.</p>
-          <p className="text-slate-400">50,000+ Name Etymology Dictionary</p>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-500">
+          <p>© {new Date().getFullYear()} NameMeaning.fun. Etymological reference dictionary.</p>
+          <p className="text-zinc-500">Type your name. Discover its story.</p>
         </div>
       </div>
     </footer>

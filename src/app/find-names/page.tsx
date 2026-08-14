@@ -37,7 +37,6 @@ function FindNamesContent() {
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query);
@@ -45,7 +44,6 @@ function FindNamesContent() {
     return () => clearTimeout(handler);
   }, [query]);
 
-  // Sync params with URL state
   useEffect(() => {
     if (searchParams.get('q') !== null) setQuery(searchParams.get('q') || '');
     if (searchParams.get('gender') !== null) setGender(searchParams.get('gender') || 'All');
@@ -54,12 +52,10 @@ function FindNamesContent() {
     if (searchParams.get('letter') !== null) setLetter(searchParams.get('letter') || 'All');
   }, [searchParams]);
 
-  // Reset page when filters change
   useEffect(() => {
     setPage(1);
   }, [debouncedQuery, gender, origin, religion, letter]);
 
-  // Fetch results from server API
   const fetchResults = useCallback(async () => {
     setLoading(true);
     try {
@@ -105,78 +101,70 @@ function FindNamesContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
       
       {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-          Find Names Engine
+      <div className="space-y-1 text-center max-w-xl mx-auto">
+        <h1 className="text-2xl sm:text-4xl font-black text-zinc-900 tracking-tight">
+          Name Directory &amp; Index
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600">
-          Search and filter authentic personal names by gender, origin, religion, language, or letter.
+        <p className="text-xs sm:text-sm text-zinc-600">
+          Filter authentic personal names by gender, origin, religion, or starting letter.
         </p>
       </div>
 
-      {/* Main Search Input & Mobile Filter Toggle */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
+      {/* Filter Card */}
+      <div className="bg-white border border-zinc-200 rounded-3xl p-4 sm:p-6 shadow-2xs space-y-4">
         <div className="flex items-center gap-2">
           <div className="relative flex-1 flex items-center">
-            <Search className="absolute left-3.5 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-3.5 w-4 h-4 text-zinc-400" />
             <input
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search by name or keyword (e.g. Fatima, Aisha, Light, Peace)..."
-              className="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-200 bg-slate-50/70 text-slate-900 text-sm font-medium outline-none focus:border-emerald-500 focus:bg-white transition-colors"
+              placeholder="Search name or meaning (e.g. Fatima, Aarav, Light)..."
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/60 text-zinc-900 text-sm font-medium outline-none focus:border-zinc-400 focus:bg-white transition-colors"
             />
             {query && (
               <button
                 onClick={() => { setQuery(''); setDebouncedQuery(''); }}
-                className="absolute right-3 p-1 rounded-full text-slate-400 hover:text-slate-600"
+                className="absolute right-3 p-1 rounded-full text-zinc-400 hover:text-zinc-600"
               >
                 <X className="w-4 h-4" />
               </button>
             )}
           </div>
 
-          {/* Mobile Filter Button */}
           <button
             onClick={() => setMobileFilterOpen(true)}
-            className="md:hidden flex items-center gap-1.5 px-3.5 py-3 rounded-2xl bg-slate-900 text-white text-xs font-bold shrink-0"
+            className="md:hidden flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-zinc-900 text-white text-xs font-bold shrink-0"
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span>Filters</span>
           </button>
         </div>
 
-        {/* Desktop Filter Panel */}
-        <div className="hidden md:grid grid-cols-4 gap-3 pt-3 border-t border-slate-100">
-          
-          {/* Gender */}
+        {/* Desktop Filter Options */}
+        <div className="hidden md:grid grid-cols-4 gap-3 pt-3 border-t border-zinc-100">
           <div className="space-y-1">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Gender
-            </label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Gender</label>
             <select
               value={gender}
               onChange={e => setGender(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {GENDERS.map(g => (
-                <option key={g} value={g}>{g === 'Female' ? 'Girl' : g === 'Male' ? 'Boy' : g}</option>
+                <option key={g} value={g}>{g}</option>
               ))}
             </select>
           </div>
 
-          {/* Origin */}
           <div className="space-y-1">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Origin
-            </label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Origin</label>
             <select
               value={origin}
               onChange={e => setOrigin(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {ORIGINS.map(o => (
                 <option key={o} value={o}>{o}</option>
@@ -184,15 +172,12 @@ function FindNamesContent() {
             </select>
           </div>
 
-          {/* Religion / Culture */}
           <div className="space-y-1">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Religion / Tradition
-            </label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Culture / Religion</label>
             <select
               value={religion}
               onChange={e => setReligion(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {RELIGIONS.map(r => (
                 <option key={r} value={r}>{r}</option>
@@ -200,163 +185,95 @@ function FindNamesContent() {
             </select>
           </div>
 
-          {/* Letter */}
           <div className="space-y-1">
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Starting Letter
-            </label>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Letter</label>
             <select
               value={letter}
               onChange={e => setLetter(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {LETTERS.map(l => (
                 <option key={l} value={l}>{l === 'All' ? 'All Letters' : l}</option>
               ))}
             </select>
           </div>
-
         </div>
 
         {/* Filter Summary */}
-        <div className="flex items-center justify-between pt-2 text-xs text-slate-500">
+        <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
           <div>
-            Found <span className="font-bold text-slate-900">{total.toLocaleString()}</span> matching names
+            Showing <span className="font-bold text-zinc-900">{total.toLocaleString()}</span> names
           </div>
           {(query || gender !== 'All' || origin !== 'All' || religion !== 'All' || letter !== 'All') && (
             <button
               onClick={clearFilters}
-              className="flex items-center gap-1 text-emerald-600 font-bold hover:underline"
+              className="flex items-center gap-1 text-emerald-700 font-bold hover:underline"
             >
               <X className="w-3.5 h-3.5" />
               <span>Reset Filters</span>
             </button>
           )}
         </div>
-
       </div>
 
-      {/* Mobile Filter Drawer */}
+      {/* Mobile Drawer */}
       {mobileFilterOpen && (
         <>
-          <div
-            className="fixed inset-0 z-50 bg-black/40 md:hidden"
-            onClick={() => setMobileFilterOpen(false)}
-          />
-          <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white rounded-t-3xl p-6 space-y-5 shadow-2xl md:hidden max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-black text-lg text-slate-900">Filter Names</span>
-              <button
-                onClick={() => setMobileFilterOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
+          <div className="fixed inset-0 z-50 bg-black/40 md:hidden" onClick={() => setMobileFilterOpen(false)} />
+          <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white rounded-t-3xl p-6 space-y-4 shadow-2xl md:hidden max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+              <span className="font-bold text-base text-zinc-900">Filters</span>
+              <button onClick={() => setMobileFilterOpen(false)} className="p-1 text-zinc-400"><X className="w-5 h-5" /></button>
             </div>
-
-            <div className="space-y-4">
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">Gender</label>
-                <select
-                  value={gender}
-                  onChange={e => setGender(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold"
-                >
-                  {GENDERS.map(g => (
-                    <option key={g} value={g}>{g === 'Female' ? 'Girl' : g === 'Male' ? 'Boy' : g}</option>
-                  ))}
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-bold text-zinc-700 mb-1">Gender</label>
+                <select value={gender} onChange={e => setGender(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                  {GENDERS.map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
               </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">Origin</label>
-                <select
-                  value={origin}
-                  onChange={e => setOrigin(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold"
-                >
-                  {ORIGINS.map(o => (
-                    <option key={o} value={o}>{o}</option>
-                  ))}
+              <div>
+                <label className="block text-xs font-bold text-zinc-700 mb-1">Origin</label>
+                <select value={origin} onChange={e => setOrigin(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                  {ORIGINS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">Religion / Tradition</label>
-                <select
-                  value={religion}
-                  onChange={e => setReligion(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold"
-                >
-                  {RELIGIONS.map(r => (
-                    <option key={r} value={r}>{r}</option>
-                  ))}
+              <div>
+                <label className="block text-xs font-bold text-zinc-700 mb-1">Culture</label>
+                <select value={religion} onChange={e => setReligion(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                  {RELIGIONS.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
-
-              <div className="space-y-1">
-                <label className="block text-xs font-bold text-slate-700">Starting Letter</label>
-                <select
-                  value={letter}
-                  onChange={e => setLetter(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold"
-                >
-                  {LETTERS.map(l => (
-                    <option key={l} value={l}>{l === 'All' ? 'All Letters' : l}</option>
-                  ))}
+              <div>
+                <label className="block text-xs font-bold text-zinc-700 mb-1">Starting Letter</label>
+                <select value={letter} onChange={e => setLetter(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                  {LETTERS.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
             </div>
-
-            <div className="pt-2 flex items-center gap-3">
-              <button
-                onClick={clearFilters}
-                className="w-1/2 py-3 rounded-xl border border-slate-200 font-bold text-xs text-slate-700"
-              >
-                Reset All
-              </button>
-              <button
-                onClick={() => setMobileFilterOpen(false)}
-                className="w-1/2 py-3 rounded-xl bg-slate-900 text-white font-bold text-xs"
-              >
-                Apply Filters
-              </button>
+            <div className="pt-2 flex gap-3">
+              <button onClick={clearFilters} className="w-1/2 py-2.5 rounded-xl border border-zinc-200 text-xs font-bold">Reset</button>
+              <button onClick={() => setMobileFilterOpen(false)} className="w-1/2 py-2.5 rounded-xl bg-zinc-900 text-white text-xs font-bold">Apply</button>
             </div>
           </div>
         </>
       )}
 
-      {/* Results Grid / Skeleton */}
+      {/* Grid Results */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 animate-pulse">
-              <div className="h-4 bg-slate-200 rounded-md w-1/2"></div>
-              <div className="h-3 bg-slate-100 rounded-md w-full"></div>
-              <div className="h-3 bg-slate-100 rounded-md w-3/4"></div>
+            <div key={i} className="bg-white border border-zinc-200 rounded-2xl p-4 space-y-3 animate-pulse">
+              <div className="h-4 bg-zinc-200 rounded w-1/2"></div>
+              <div className="h-3 bg-zinc-100 rounded w-full"></div>
             </div>
           ))}
         </div>
       ) : names.length === 0 ? (
-        <div className="bg-slate-50 border border-slate-200 rounded-3xl p-10 text-center space-y-4">
-          <p className="text-slate-800 font-bold text-lg">No matching names found.</p>
-          <p className="text-xs text-slate-500 max-w-md mx-auto">
-            Try clearing specific filter options or explore popular categories below.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
-            <button
-              onClick={clearFilters}
-              className="px-4 py-2 bg-emerald-600 text-white font-bold text-xs rounded-xl hover:bg-emerald-500 transition-colors"
-            >
-              Clear All Filters
-            </button>
-            <Link
-              href="/muslim-girl-names"
-              className="px-4 py-2 bg-rose-50 text-rose-700 border border-rose-200 font-bold text-xs rounded-xl hover:bg-rose-100"
-            >
-              Explore Muslim Girl Names
-            </Link>
-          </div>
+        <div className="bg-white border border-zinc-200 rounded-3xl p-10 text-center space-y-3">
+          <p className="text-zinc-800 font-bold">No names match your specific query.</p>
+          <p className="text-xs text-zinc-500">We don&apos;t have a detailed entry for that name yet. Check spelling or try a similar name.</p>
+          <button onClick={clearFilters} className="px-4 py-2 bg-zinc-900 text-white font-bold text-xs rounded-xl">Clear Filters</button>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -364,28 +281,22 @@ function FindNamesContent() {
             <Link
               key={item.slug}
               href={`/name/${item.slug}`}
-              className="group block bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-4 transition-all shadow-2xs hover:shadow-md space-y-2"
+              className="group block bg-white border border-zinc-200 hover:border-zinc-400 rounded-2xl p-4 transition-all shadow-2xs space-y-2"
             >
               <div className="flex items-center justify-between gap-2">
-                <h3 className="font-black text-base text-slate-900 group-hover:text-emerald-600 transition-colors">
+                <h3 className="font-bold text-base text-zinc-900 group-hover:text-emerald-700 transition-colors">
                   {item.name}
                 </h3>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                  item.gender === 'Male' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                  item.gender === 'Female' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
-                  'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                }`}>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-700">
                   {item.gender}
                 </span>
               </div>
-
-              <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed">
                 {item.meaning}
               </p>
-
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
-                <span>{item.origin} Origin</span>
-                <span className="font-medium text-slate-600">{item.religion && item.religion[0] ? item.religion[0] : 'Cultural'}</span>
+              <div className="flex items-center justify-between text-[11px] text-zinc-400 pt-2 border-t border-zinc-100">
+                <span>{item.origin}</span>
+                <span>{item.religion && item.religion[0] ? item.religion[0] : 'Global'}</span>
               </div>
             </Link>
           ))}
@@ -394,23 +305,21 @@ function FindNamesContent() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-6">
+        <div className="flex items-center justify-center gap-2 pt-4">
           <button
             disabled={page === 1}
             onClick={() => setPage(p => Math.max(1, p - 1))}
-            className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-
-          <span className="text-xs font-bold text-slate-700 px-3">
+          <span className="text-xs font-bold text-zinc-700 px-3">
             Page {page} of {totalPages}
           </span>
-
           <button
             disabled={page === totalPages}
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-            className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -423,7 +332,7 @@ function FindNamesContent() {
 
 export default function FindNamesPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-slate-500">Loading Find Names Engine...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-zinc-500">Loading Directory...</div>}>
       <FindNamesContent />
     </Suspense>
   );

@@ -8,14 +8,14 @@ import { Footer } from '@/components/layout/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NameVerse — Search Name Meanings, Origins & Cultural Etymologies',
-  description: 'Explore authentic name meanings, origins, languages, gender usage, and cultural traditions across Islamic, Arabic, Urdu, Persian, Indian, Sanskrit, Hebrew, and global naming heritages.',
-  keywords: ['nameverse', 'name meaning', 'name origin', 'etymology', 'arabic girl names', 'muslim girl names', 'urdu names', 'persian names', 'sanskrit names', 'muslim boy names'],
-  authors: [{ name: 'NameVerse Team' }],
-  metadataBase: new URL('https://name-verse.vercel.app'),
+  title: 'NameMeaning.fun — What does your name mean?',
+  description: 'Discover the meaning, origin, history, and story behind your name. Fast, authentic etymological search.',
+  keywords: ['namemeaning.fun', 'name meaning', 'what does my name mean', 'name origin', 'etymology', 'arabic names', 'sanskrit names', 'muslim names', 'global names'],
+  authors: [{ name: 'NameMeaning.fun Team' }],
+  metadataBase: new URL('https://namemeaning.fun'),
   openGraph: {
-    title: 'NameVerse — Name Discovery Engine',
-    description: 'Find a name with meaning across Islamic, Arabic, Urdu, Persian, Indian, and global naming traditions.',
+    title: 'NameMeaning.fun — What does your name mean?',
+    description: 'Discover the meaning, origin, history, and story behind your name.',
     type: 'website',
   },
 };
@@ -30,7 +30,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
-      <body className={`${inter.className} bg-slate-50 text-slate-900 antialiased`}>
+      <body className={`${inter.className} bg-zinc-50 text-zinc-900 antialiased`}>
         <LanguageProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

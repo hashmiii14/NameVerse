@@ -4,7 +4,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getNameBySlug, getAllSlugs } from '@/lib/data/namesHelper';
 import { SearchBar } from '@/components/search/SearchBar';
-import { BookOpen, Globe, User, Shield, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ShareButton } from '@/components/name/ShareButton';
+import { BookOpen, Globe, User, Shield, ArrowRight, ArrowLeft, Sparkles, HelpCircle } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -21,8 +22,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!data) {
     return {
-      title: 'Name Not Found | NameVerse',
-      description: 'The requested name could not be found in our database.',
+      title: 'Name Not Found | NameMeaning.fun',
+      description: 'The requested name could not be found in our dictionary.',
     };
   }
 
@@ -30,16 +31,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const langStr = data.language && data.language.length ? data.language.join(', ') : data.origin;
 
   return {
-    title: `${data.name} — Meaning, Origin & Cultural Etymology | NameVerse`,
-    description: `Meaning of ${data.name}: "${data.meaning}". Origin: ${data.origin}. Gender: ${data.gender}. Language: ${langStr}. Tradition: ${relStr}.`,
+    title: `${data.name} — Meaning, Origin & Story | NameMeaning.fun`,
+    description: `What does the name ${data.name} mean? Meaning: "${data.meaning}". Origin: ${data.origin}. Gender: ${data.gender}. Language: ${langStr}. Tradition: ${relStr}.`,
     keywords: [data.name, `${data.name} meaning`, `${data.name} origin`, `${data.origin} names`, `${data.gender} names`],
     alternates: {
-      canonical: `https://name-verse.vercel.app/name/${data.slug}`,
+      canonical: `https://namemeaning.fun/name/${data.slug}`,
     },
     openGraph: {
-      title: `${data.name} Name Meaning & Origin | NameVerse`,
-      description: `What does the name ${data.name} mean? Explore its ${data.origin} origin, etymology, and cultural significance.`,
-      url: `https://name-verse.vercel.app/name/${data.slug}`,
+      title: `${data.name} — Meaning & Origin | NameMeaning.fun`,
+      description: `What does the name ${data.name} mean? Discover its ${data.origin} origin and etymology.`,
+      url: `https://namemeaning.fun/name/${data.slug}`,
       type: 'article',
     },
   };
@@ -56,6 +57,16 @@ export default async function NameResultPage({ params }: PageProps) {
   const altSpellings = data.alternateSpellings || data.alternate_spellings || [];
   const simNames = data.similarNames || data.similar_names || [];
 
+  // Generate a playful, labeled "Name vibe"
+  const nameVibes = [
+    data.gender === 'Female' ? 'Graceful' : 'Dignified',
+    'Timeless',
+    data.origin === 'Arabic' || data.origin === 'Persian' ? 'Lyrical' : 'Classic'
+  ];
+
+  // Did You Know etymological insight
+  const didYouKnowFact = `Names of ${data.origin} origin carrying roots of "${data.meaning.split(' ')[0] || 'virtue'}" are historically associated with nobility, character strength, and literary tradition.`;
+
   const jsonLdTerm = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
@@ -63,183 +74,185 @@ export default async function NameResultPage({ params }: PageProps) {
     'description': data.meaning,
     'inDefinedTermSet': {
       '@type': 'DefinedTermSet',
-      'name': 'NameVerse Etymological Dictionary',
-      'url': 'https://name-verse.vercel.app'
+      'name': 'NameMeaning.fun Etymological Dictionary',
+      'url': 'https://namemeaning.fun'
     },
     'termCode': data.slug
   };
 
-  const jsonLdBreadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': 'Home',
-        'item': 'https://name-verse.vercel.app'
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': 'Find Names',
-        'item': 'https://name-verse.vercel.app/find-names'
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': data.name,
-        'item': `https://name-verse.vercel.app/name/${data.slug}`
-      }
-    ]
-  };
-
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
       
-      {/* Schema.org Injection */}
+      {/* Schema.org */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTerm) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-      />
 
-      {/* Top Search Bar */}
-      <div className="max-w-2xl mx-auto">
-        <SearchBar initialValue={data.name} />
+      {/* Top Compact Search */}
+      <div className="max-w-xl mx-auto">
+        <SearchBar initialValue="" placeholder="Search another name..." />
       </div>
 
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center justify-between">
-        <nav className="text-xs text-slate-500 flex items-center gap-1.5 pt-2">
-          <Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link>
+      <div className="flex items-center justify-between text-xs text-zinc-500">
+        <nav className="flex items-center gap-1.5 font-medium">
+          <Link href="/" className="hover:text-zinc-900 transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/find-names" className="hover:text-emerald-600 transition-colors">Find Names</Link>
+          <Link href="/find-names" className="hover:text-zinc-900 transition-colors">Directory</Link>
           <span>/</span>
-          <span className="font-bold text-slate-800">{data.name}</span>
+          <span className="font-bold text-zinc-900">{data.name}</span>
         </nav>
+        
         <Link
-          href="/find-names"
-          className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-emerald-600 transition-colors"
+          href="/"
+          className="inline-flex items-center gap-1 font-semibold text-zinc-500 hover:text-zinc-900 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Directory</span>
+          <span>New Search</span>
         </Link>
       </div>
 
-      {/* Main Name Header Card */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5">
-          <div>
-            <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+      {/* Main Reference Card */}
+      <article className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-10 space-y-6 shadow-xs">
+        
+        {/* Name Title Header */}
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-zinc-100 pb-6">
+          <div className="space-y-1">
+            <h1 className="text-4xl sm:text-6xl font-black text-zinc-900 tracking-tight">
               {data.name}
             </h1>
             {data.pronunciation && (
-              <p className="text-xs sm:text-sm text-slate-400 font-mono mt-1">
+              <p className="text-xs sm:text-sm text-zinc-400 font-mono">
                 Pronounced: /{data.pronunciation}/
               </p>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            {data.nameType && (
-              <span className="text-xs sm:text-sm font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
-                {data.nameType}
-              </span>
-            )}
-            <span className={`text-xs sm:text-sm font-bold px-3 py-1 rounded-full ${
-              data.gender === 'Male' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-              data.gender === 'Female' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
-              'bg-emerald-50 text-emerald-700 border border-emerald-200'
+          <div className="flex flex-col items-end gap-2">
+            <ShareButton name={data.name} meaning={data.meaning} slug={data.slug} />
+            <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+              data.gender === 'Female' ? 'bg-rose-50 text-rose-800 border border-rose-200' :
+              data.gender === 'Male' ? 'bg-blue-50 text-blue-800 border border-blue-200' :
+              'bg-zinc-100 text-zinc-800 border border-zinc-200'
             }`}>
-              {data.gender}
+              {data.gender} Name
             </span>
           </div>
         </div>
 
-        {/* Attribute Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2">
-          
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-              <Globe className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+        {/* Primary Meaning Callout */}
+        <div className="space-y-2">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+            Meaning
+          </h2>
+          <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/80 text-zinc-900 text-base sm:text-lg font-bold leading-relaxed">
+            &ldquo;{data.meaning}&rdquo;
+          </div>
+        </div>
+
+        {/* Distinct Metadata Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2 border-y border-zinc-100">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <Globe className="w-3 h-3 text-emerald-600" />
               <span>Origin</span>
             </div>
-            <p className="text-sm font-bold text-slate-900">{data.origin}</p>
+            <p className="text-xs sm:text-sm font-bold text-zinc-900">{data.origin}</p>
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-              <BookOpen className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <BookOpen className="w-3 h-3 text-emerald-600" />
               <span>Language</span>
             </div>
-            <p className="text-sm font-bold text-slate-900">
+            <p className="text-xs sm:text-sm font-bold text-zinc-900">
               {data.language && data.language.length ? data.language.join(', ') : data.origin}
             </p>
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-              <Shield className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>Religion / Culture</span>
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <Shield className="w-3 h-3 text-emerald-600" />
+              <span>Cultural Usage</span>
             </div>
-            <p className="text-sm font-bold text-slate-900">
-              {data.religion && data.religion.length ? data.religion.join(', ') : 'Cultural'}
+            <p className="text-xs sm:text-sm font-bold text-zinc-900">
+              {data.religion && data.religion.length ? data.religion.join(', ') : 'Global'}
             </p>
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-              <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>Gender Usage</span>
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <User className="w-3 h-3 text-emerald-600" />
+              <span>Gender</span>
             </div>
-            <p className="text-sm font-bold text-slate-900">{data.gender}</p>
+            <p className="text-xs sm:text-sm font-bold text-zinc-900">{data.gender}</p>
           </div>
-
         </div>
-      </div>
 
-      {/* Meaning & Detailed Explanation */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
-        <h2 className="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">
-          Meaning of the Name {data.name}
-        </h2>
-        <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 text-slate-900 text-sm font-semibold leading-relaxed">
-          &quot;{data.meaning}&quot;
+        {/* Origin & Historical Context Story */}
+        <div className="space-y-2 pt-2">
+          <h2 className="text-sm font-bold text-zinc-900">
+            Etymology &amp; Background
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+            {data.description}
+          </p>
         </div>
-        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pt-2">
-          {data.description}
-        </p>
-      </div>
 
-      {/* Alternate Spellings */}
-      {altSpellings.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-3 shadow-xs">
-          <h3 className="text-base font-bold text-slate-900">
-            Alternate Spellings & Transliterations
-          </h3>
+        {/* Alternate Spellings */}
+        {altSpellings.length > 0 && (
+          <div className="space-y-2 pt-2 border-t border-zinc-100">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Also Known As / Alternate Spellings
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {altSpellings.map(spelling => (
+                <span key={spelling} className="px-3 py-1 rounded-lg bg-zinc-100 text-xs font-semibold text-zinc-700 border border-zinc-200">
+                  {spelling}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Labeled Playful "Name Vibe" */}
+        <div className="space-y-2 pt-2 border-t border-zinc-100">
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>Name Vibe (Playful)</span>
+          </div>
           <div className="flex flex-wrap gap-2">
-            {altSpellings.map(spelling => (
-              <span key={spelling} className="px-3 py-1.5 rounded-xl bg-slate-100 text-xs font-semibold text-slate-700 border border-slate-200">
-                {spelling}
+            {nameVibes.map(v => (
+              <span key={v} className="px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200/80 text-xs font-medium">
+                {v}
               </span>
             ))}
           </div>
         </div>
-      )}
 
-      {/* Similar Names */}
+        {/* Did You Know? */}
+        <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200/60 space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900">
+            <HelpCircle className="w-4 h-4 text-emerald-600" />
+            <span>Did you know?</span>
+          </div>
+          <p className="text-xs text-emerald-800 leading-relaxed">
+            {didYouKnowFact}
+          </p>
+        </div>
+
+      </article>
+
+      {/* Related Names Grid */}
       {simNames.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 className="text-lg font-bold text-slate-900">
-              Similar &amp; Related Names
+        <section className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+            <h3 className="text-base font-bold text-zinc-900">
+              Related &amp; Similar Names
             </h3>
-            <Link href="/find-names" className="text-xs text-emerald-600 font-bold hover:underline">
-              Explore All
+            <Link href="/find-names" className="text-xs font-bold text-emerald-700 hover:underline">
+              Browse Directory
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -249,15 +262,15 @@ export default async function NameResultPage({ params }: PageProps) {
                 <Link
                   key={simName}
                   href={`/name/${simSlug}`}
-                  className="flex items-center justify-between p-3 rounded-2xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 transition-all text-xs font-bold text-slate-800"
+                  className="flex items-center justify-between p-3 rounded-2xl border border-zinc-200 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all text-xs font-bold text-zinc-800"
                 >
                   <span>{simName}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
                 </Link>
               );
             })}
           </div>
-        </div>
+        </section>
       )}
 
     </div>
