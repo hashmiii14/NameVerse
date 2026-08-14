@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, X, ChevronLeft, ChevronRight, SlidersHorizontal, Info } from 'lucide-react';
+import { Search, X, ChevronLeft, ChevronRight, SlidersHorizontal, Info, Loader2 } from 'lucide-react';
 import { NameRecord } from '@/types/name';
 
 const GENDERS = ['All', 'Female', 'Male', 'Unisex'];
@@ -22,6 +22,7 @@ function FindNamesContent() {
   const initialReligion = searchParams.get('religion') || 'All';
   const initialCommunity = searchParams.get('community') || 'All';
   const initialLetter = searchParams.get('letter') || 'All';
+  const initialPage = parseInt(searchParams.get('page') || '1', 10);
 
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
@@ -34,19 +35,22 @@ function FindNamesContent() {
   const [names, setNames] = useState<NameRecord[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const pageSize = 48;
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
+  // Sync debounced search input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 300);
+    }, 250);
     return () => clearTimeout(handler);
   }, [query]);
 
+  // Sync URL search params on navigation
   useEffect(() => {
     if (searchParams.get('q') !== null) setQuery(searchParams.get('q') || '');
     if (searchParams.get('gender') !== null) setGender(searchParams.get('gender') || 'All');
@@ -56,12 +60,14 @@ function FindNamesContent() {
     if (searchParams.get('letter') !== null) setLetter(searchParams.get('letter') || 'All');
   }, [searchParams]);
 
-  useEffect(() => {
+  // Reset to page 1 on filter changes
+  const handleFilterChange = (setter: (val: string) => void, value: string) => {
+    setter(value);
     setPage(1);
-  }, [debouncedQuery, gender, origin, religion, community, letter]);
+  };
 
   const fetchResults = useCallback(async () => {
-    setLoading(true);
+    setIsFetching(true);
     try {
       const offset = (page - 1) * pageSize;
       const params = new URLSearchParams();
@@ -85,6 +91,7 @@ function FindNamesContent() {
       console.error('Failed to fetch search results:', err);
     } finally {
       setLoading(false);
+      setIsFetching(false);
     }
   }, [debouncedQuery, gender, origin, religion, community, letter, page, pageSize]);
 
@@ -92,7 +99,7 @@ function FindNamesContent() {
     fetchResults();
   }, [fetchResults]);
 
-  const totalPages = Math.ceil(total / pageSize) || 1;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const clearFilters = () => {
     setQuery('');
@@ -128,18 +135,23 @@ function FindNamesContent() {
             <input
               type="text"
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => {
+                setQuery(e.target.value);
+                setPage(1);
+              }}
               placeholder="Search name or meaning (e.g. Fatima, Aarav, Light)..."
               className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/60 text-zinc-900 text-sm font-medium outline-none focus:border-zinc-400 focus:bg-white transition-colors"
             />
-            {query && (
+            {query ? (
               <button
-                onClick={() => { setQuery(''); setDebouncedQuery(''); }}
+                onClick={() => { setQuery(''); setDebouncedQuery(''); setPage(1); }}
                 className="absolute right-3 p-1 rounded-full text-zinc-400 hover:text-zinc-600"
               >
                 <X className="w-4 h-4" />
               </button>
-            )}
+            ) : isFetching ? (
+              <Loader2 className="absolute right-3.5 w-4 h-4 text-emerald-600 animate-spin" />
+            ) : null}
           </div>
 
           <button
@@ -157,7 +169,7 @@ function FindNamesContent() {
             <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Gender</label>
             <select
               value={gender}
-              onChange={e => setGender(e.target.value)}
+              onChange={e => handleFilterChange(setGender, e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {GENDERS.map(g => (
@@ -170,7 +182,7 @@ function FindNamesContent() {
             <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Origin / Language</label>
             <select
               value={origin}
-              onChange={e => setOrigin(e.target.value)}
+              onChange={e => handleFilterChange(setOrigin, e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {ORIGINS.map(o => (
@@ -183,7 +195,7 @@ function FindNamesContent() {
             <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Cultural Usage</label>
             <select
               value={religion}
-              onChange={e => setReligion(e.target.value)}
+              onChange={e => handleFilterChange(setReligion, e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {RELIGIONS.map(r => (
@@ -196,7 +208,7 @@ function FindNamesContent() {
             <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Community Usage</label>
             <select
               value={community}
-              onChange={e => setCommunity(e.target.value)}
+              onChange={e => handleFilterChange(setCommunity, e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 text-xs font-semibold outline-none focus:border-zinc-400"
             >
               {COMMUNITIES.map(c => (
@@ -221,7 +233,7 @@ function FindNamesContent() {
             return (
               <button
                 key={char}
-                onClick={() => setLetter(char)}
+                onClick={() => handleFilterChange(setLetter, char)}
                 className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-extrabold text-xs transition-all ${
                   active
                     ? 'bg-zinc-900 text-white shadow-2xs'
@@ -236,8 +248,9 @@ function FindNamesContent() {
 
         {/* Status Bar */}
         <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
-          <div>
-            Showing <span className="font-bold text-zinc-900">{total.toLocaleString()}</span> documented names
+          <div className="flex items-center gap-2">
+            <span>Showing <span className="font-bold text-zinc-900">{total.toLocaleString()}</span> documented names</span>
+            {isFetching && <Loader2 className="w-3.5 h-3.5 text-emerald-600 animate-spin" />}
           </div>
           {(query || gender !== 'All' || origin !== 'All' || religion !== 'All' || community !== 'All' || letter !== 'All') && (
             <button
@@ -264,25 +277,25 @@ function FindNamesContent() {
             <div className="space-y-3">
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">Gender</label>
-                <select value={gender} onChange={e => setGender(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                <select value={gender} onChange={e => handleFilterChange(setGender, e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
                   {GENDERS.map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">Origin</label>
-                <select value={origin} onChange={e => setOrigin(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                <select value={origin} onChange={e => handleFilterChange(setOrigin, e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
                   {ORIGINS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">Cultural Usage</label>
-                <select value={religion} onChange={e => setReligion(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                <select value={religion} onChange={e => handleFilterChange(setReligion, e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
                   {RELIGIONS.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">Community Usage</label>
-                <select value={community} onChange={e => setCommunity(e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
+                <select value={community} onChange={e => handleFilterChange(setCommunity, e.target.value)} className="w-full p-2.5 rounded-xl border border-zinc-200 text-xs">
                   {COMMUNITIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
@@ -312,7 +325,7 @@ function FindNamesContent() {
           <button onClick={clearFilters} className="px-4 py-2 bg-zinc-900 text-white font-bold text-xs rounded-xl">Clear All Filters</button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 transition-opacity duration-150 ${isFetching ? 'opacity-60' : 'opacity-100'}`}>
           {names.map(item => (
             <Link
               key={item.slug}
@@ -346,9 +359,9 @@ function FindNamesContent() {
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 pt-6">
           <button
-            disabled={page === 1}
+            disabled={page === 1 || isFetching}
             onClick={() => setPage(p => Math.max(1, p - 1))}
-            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40"
+            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40 hover:bg-zinc-50"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -356,9 +369,9 @@ function FindNamesContent() {
             Page {page} of {totalPages}
           </span>
           <button
-            disabled={page === totalPages}
+            disabled={page === totalPages || isFetching}
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40"
+            className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-700 disabled:opacity-40 hover:bg-zinc-50"
           >
             <ChevronRight className="w-5 h-5" />
           </button>

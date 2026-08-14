@@ -25,7 +25,8 @@ function loadDataset(): NameRecord[] {
   // Build O(1) slug map
   cachedSlugMap = new Map<string, NameRecord>();
   if (cachedNames) {
-    for (const item of cachedNames) {
+    for (let i = 0; i < cachedNames.length; i++) {
+      const item = cachedNames[i];
       if (item && item.slug) {
         cachedSlugMap.set(item.slug.toLowerCase(), item);
         const simpleName = item.name.toLowerCase().trim();
@@ -71,87 +72,71 @@ export function getAllSlugs(): string[] {
 }
 
 /**
- * Server-side search & filter utility with exact-match priority ranking
+ * High-performance server-side search & filter utility (Single-pass O(N) execution)
  */
 export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0): { results: NameRecord[]; total: number } {
-  let list = loadDataset();
+  const dataset = loadDataset();
+  
+  const gender = (options.gender && options.gender !== 'All') ? options.gender.toLowerCase() : null;
+  const origin = (options.origin && options.origin !== 'All') ? options.origin.toLowerCase() : null;
+  const religion = (options.religion && options.religion !== 'All') ? options.religion.toLowerCase() : null;
+  const language = (options.language && options.language !== 'All') ? options.language.toLowerCase() : null;
+  const community = (options.community && options.community !== 'All') ? options.community.toLowerCase() : null;
+  const letter = (options.letter && options.letter !== 'All') ? options.letter.toLowerCase() : null;
+  const q = (options.searchQuery && options.searchQuery.trim()) ? options.searchQuery.toLowerCase().trim() : null;
+  const qSlug = q ? q.replace(/[\s\W-]+/g, '-') : null;
 
-  if (options.gender && options.gender !== 'All') {
-    const targetGender = options.gender.toLowerCase();
-    list = list.filter(item => item.gender.toLowerCase() === targetGender);
+  const matches: NameRecord[] = [];
+  const ranks: number[] = [];
+
+  for (let i = 0; i < dataset.length; i++) {
+    const item = dataset[i];
+
+    if (gender && item.gender.toLowerCase() !== gender) continue;
+    if (origin && !item.origin.toLowerCase().includes(origin)) continue;
+    if (letter && !item.name.toLowerCase().startsWith(letter)) continue;
+    if (religion && (!item.religion || !item.religion.some(r => r.toLowerCase().includes(religion)))) continue;
+    if (language && (!item.language || !item.language.some(l => l.toLowerCase().includes(language)))) continue;
+    if (community) {
+      const inComm = (item.community && item.community.some(c => c.toLowerCase().includes(community))) ||
+                     (item.tags && item.tags.some(t => t.toLowerCase().includes(community))) ||
+                     (item.description && item.description.toLowerCase().includes(community));
+      if (!inComm) continue;
+    }
+
+    let rank = 0;
+    if (q && qSlug) {
+      const nameLower = item.name.toLowerCase();
+      const slugLower = item.slug;
+      if (nameLower === q || slugLower === qSlug) {
+        rank = 1;
+      } else if (nameLower.startsWith(q) || slugLower.startsWith(qSlug)) {
+        rank = 2;
+      } else if (nameLower.includes(q) || slugLower.includes(qSlug)) {
+        rank = 3;
+      } else if (item.meaning.toLowerCase().includes(q) || (item.origin && item.origin.toLowerCase().includes(q))) {
+        rank = 4;
+      } else {
+        continue;
+      }
+    }
+
+    matches.push(item);
+    if (q) ranks.push(rank);
   }
 
-  if (options.origin && options.origin !== 'All') {
-    const targetOrigin = options.origin.toLowerCase();
-    list = list.filter(item => item.origin.toLowerCase().includes(targetOrigin));
-  }
-
-  if (options.religion && options.religion !== 'All') {
-    const targetReligion = options.religion.toLowerCase();
-    list = list.filter(item => 
-      item.religion && item.religion.some(r => r.toLowerCase().includes(targetReligion))
-    );
-  }
-
-  if (options.language && options.language !== 'All') {
-    const targetLang = options.language.toLowerCase();
-    list = list.filter(item =>
-      item.language && item.language.some(l => l.toLowerCase().includes(targetLang))
-    );
-  }
-
-  if (options.community && options.community !== 'All') {
-    const comm = options.community.toLowerCase();
-    list = list.filter(item =>
-      (item.community && item.community.some(c => c.toLowerCase().includes(comm))) ||
-      (item.tags && item.tags.some(t => t.toLowerCase().includes(comm))) ||
-      (item.description && item.description.toLowerCase().includes(comm))
-    );
-  }
-
-  if (options.letter && options.letter !== 'All') {
-    const char = options.letter.toLowerCase();
-    list = list.filter(item => item.name.toLowerCase().startsWith(char));
-  }
-
-  if (options.searchQuery && options.searchQuery.trim()) {
-    const q = options.searchQuery.toLowerCase().trim();
-    const qSlug = q.replace(/[\s\W-]+/g, '-');
-
-    // Filter matching candidates
-    const filtered = list.filter(item =>
-      item.name.toLowerCase().includes(q) ||
-      item.slug.includes(qSlug) ||
-      item.meaning.toLowerCase().includes(q) ||
-      (item.origin && item.origin.toLowerCase().includes(q))
-    );
-
-    // Exact-match priority sorting:
-    // 1. Exact slug / exact name match
-    // 2. Starts with query
-    // 3. Substring match
-    filtered.sort((a, b) => {
-      const aName = a.name.toLowerCase();
-      const bName = b.name.toLowerCase();
-      
-      const aExact = aName === q || a.slug === qSlug;
-      const bExact = bName === q || b.slug === qSlug;
-      if (aExact && !bExact) return -1;
-      if (!aExact && bExact) return 1;
-
-      const aStarts = aName.startsWith(q) || a.slug.startsWith(qSlug);
-      const bStarts = bName.startsWith(q) || b.slug.startsWith(qSlug);
-      if (aStarts && !bStarts) return -1;
-      if (!aStarts && bStarts) return 1;
-
-      return aName.localeCompare(bName);
+  if (q && matches.length > 0) {
+    const paired = matches.map((m, idx) => ({ item: m, rank: ranks[idx] }));
+    paired.sort((a, b) => {
+      if (a.rank !== b.rank) return a.rank - b.rank;
+      return a.item.name.length - b.item.name.length;
     });
-
-    list = filtered;
+    const total = paired.length;
+    const results = paired.slice(offset, offset + limit).map(p => p.item);
+    return { results, total };
   }
 
-  const total = list.length;
-  const results = list.slice(offset, offset + limit);
-
+  const total = matches.length;
+  const results = matches.slice(offset, offset + limit);
   return { results, total };
 }
