@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   typescript: {
@@ -6,6 +7,10 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  outputFileTracingIncludes: {
+    '/*': ['./src/lib/data/names.json', './public/data/names.json'],
+    '/api/*': ['./src/lib/data/names.json', './public/data/names.json'],
   },
 };
 

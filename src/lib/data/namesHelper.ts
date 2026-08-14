@@ -1,43 +1,53 @@
 import { NameRecord, FilterOptions } from '@/types/name';
 import fs from 'fs';
 import path from 'path';
-import namesData from './names.json';
 
 let cachedNames: NameRecord[] | null = null;
 let cachedSlugMap: Map<string, NameRecord> | null = null;
 
 function loadDataset(): NameRecord[] {
-  if (cachedNames) return cachedNames;
+  if (cachedNames && cachedNames.length > 0) return cachedNames;
 
-  try {
-    const filePath = path.join(process.cwd(), 'src', 'lib', 'data', 'names.json');
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, 'utf-8');
-      cachedNames = JSON.parse(raw) as NameRecord[];
-    } else {
-      cachedNames = namesData as NameRecord[];
+  const candidatePaths = [
+    path.join(process.cwd(), 'src', 'lib', 'data', 'names.json'),
+    path.join(process.cwd(), 'public', 'data', 'names.json'),
+    path.join(process.cwd(), 'names.json'),
+    path.join(__dirname, 'names.json'),
+  ];
+
+  for (const filePath of candidatePaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, 'utf-8');
+        const parsed = JSON.parse(raw) as NameRecord[];
+        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+          cachedNames = parsed;
+          break;
+        }
+      }
+    } catch (err) {
+      console.error(`Failed reading dataset at ${filePath}:`, err);
     }
-  } catch (err) {
-    console.error("Error reading names.json:", err);
-    cachedNames = namesData as NameRecord[];
+  }
+
+  if (!cachedNames) {
+    cachedNames = [];
   }
 
   // Build O(1) slug map
   cachedSlugMap = new Map<string, NameRecord>();
-  if (cachedNames) {
-    for (let i = 0; i < cachedNames.length; i++) {
-      const item = cachedNames[i];
-      if (item && item.slug) {
-        cachedSlugMap.set(item.slug.toLowerCase(), item);
-        const simpleName = item.name.toLowerCase().trim();
-        if (!cachedSlugMap.has(simpleName)) {
-          cachedSlugMap.set(simpleName, item);
-        }
+  for (let i = 0; i < cachedNames.length; i++) {
+    const item = cachedNames[i];
+    if (item && item.slug) {
+      cachedSlugMap.set(item.slug.toLowerCase(), item);
+      const simpleName = item.name.toLowerCase().trim();
+      if (!cachedSlugMap.has(simpleName)) {
+        cachedSlugMap.set(simpleName, item);
       }
     }
   }
 
-  return cachedNames || [];
+  return cachedNames;
 }
 
 function getSlugMap(): Map<string, NameRecord> {
