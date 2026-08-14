@@ -71,38 +71,32 @@ export function getAllSlugs(): string[] {
 }
 
 /**
- * Server-side search & filter utility
+ * Server-side search & filter utility with exact-match priority ranking
  */
 export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0): { results: NameRecord[]; total: number } {
   let list = loadDataset();
 
-  if (options.searchQuery && options.searchQuery.trim()) {
-    const q = options.searchQuery.toLowerCase().trim();
-    list = list.filter(item =>
-      item.name.toLowerCase().includes(q) ||
-      item.slug.includes(q) ||
-      item.meaning.toLowerCase().includes(q) ||
-      (item.origin && item.origin.toLowerCase().includes(q))
-    );
-  }
-
   if (options.gender && options.gender !== 'All') {
-    list = list.filter(item => item.gender.toLowerCase() === options.gender?.toLowerCase());
+    const targetGender = options.gender.toLowerCase();
+    list = list.filter(item => item.gender.toLowerCase() === targetGender);
   }
 
   if (options.origin && options.origin !== 'All') {
-    list = list.filter(item => item.origin.toLowerCase().includes(options.origin!.toLowerCase()));
+    const targetOrigin = options.origin.toLowerCase();
+    list = list.filter(item => item.origin.toLowerCase().includes(targetOrigin));
   }
 
   if (options.religion && options.religion !== 'All') {
+    const targetReligion = options.religion.toLowerCase();
     list = list.filter(item => 
-      item.religion && item.religion.some(r => r.toLowerCase().includes(options.religion!.toLowerCase()))
+      item.religion && item.religion.some(r => r.toLowerCase().includes(targetReligion))
     );
   }
 
   if (options.language && options.language !== 'All') {
+    const targetLang = options.language.toLowerCase();
     list = list.filter(item =>
-      item.language && item.language.some(l => l.toLowerCase().includes(options.language!.toLowerCase()))
+      item.language && item.language.some(l => l.toLowerCase().includes(targetLang))
     );
   }
 
@@ -118,6 +112,42 @@ export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0)
   if (options.letter && options.letter !== 'All') {
     const char = options.letter.toLowerCase();
     list = list.filter(item => item.name.toLowerCase().startsWith(char));
+  }
+
+  if (options.searchQuery && options.searchQuery.trim()) {
+    const q = options.searchQuery.toLowerCase().trim();
+    const qSlug = q.replace(/[\s\W-]+/g, '-');
+
+    // Filter matching candidates
+    const filtered = list.filter(item =>
+      item.name.toLowerCase().includes(q) ||
+      item.slug.includes(qSlug) ||
+      item.meaning.toLowerCase().includes(q) ||
+      (item.origin && item.origin.toLowerCase().includes(q))
+    );
+
+    // Exact-match priority sorting:
+    // 1. Exact slug / exact name match
+    // 2. Starts with query
+    // 3. Substring match
+    filtered.sort((a, b) => {
+      const aName = a.name.toLowerCase();
+      const bName = b.name.toLowerCase();
+      
+      const aExact = aName === q || a.slug === qSlug;
+      const bExact = bName === q || b.slug === qSlug;
+      if (aExact && !bExact) return -1;
+      if (!aExact && bExact) return 1;
+
+      const aStarts = aName.startsWith(q) || a.slug.startsWith(qSlug);
+      const bStarts = bName.startsWith(q) || b.slug.startsWith(qSlug);
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+
+      return aName.localeCompare(bName);
+    });
+
+    list = filtered;
   }
 
   const total = list.length;

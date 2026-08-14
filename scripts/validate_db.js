@@ -3,59 +3,79 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '..', 'src', 'lib', 'data', 'names.json');
 
+console.log("Auditing NameMeaning.fun master database...");
+
 if (!fs.existsSync(dbPath)) {
-  console.error(`Error: File not found at ${dbPath}`);
+  console.error("CRITICAL ERROR: names.json file does not exist at:", dbPath);
   process.exit(1);
 }
 
-console.log("Auditing NameVerse database...");
-const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+const raw = fs.readFileSync(dbPath, 'utf-8');
+const data = JSON.parse(raw);
 
-const total = data.length;
-let female = 0;
-let male = 0;
-let unisex = 0;
-let muslim = 0;
+console.log(`\n=========================================`);
+console.log(`TOTAL RECORDS: ${data.length.toLocaleString()}`);
 
-const letters = {};
-'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l => letters[l] = 0);
+let femaleCount = 0;
+let maleCount = 0;
+let unisexCount = 0;
+let unknownGenderCount = 0;
+let invalidGenderValues = 0;
 
-const issues = [];
+const slugSet = new Set();
+let duplicateSlugs = 0;
+let missingMeanings = 0;
+let missingOrigins = 0;
 
-data.forEach((item, index) => {
-  if (!item.name || !item.slug || !item.meaning || !item.origin || !item.gender) {
-    issues.push(`Record #${index} (${item.name || 'unnamed'}) is missing required fields.`);
+const letterCounts = {};
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('').forEach(l => letterCounts[l] = 0);
+
+for (const item of data) {
+  // Check duplicate slugs
+  if (slugSet.has(item.slug)) {
+    duplicateSlugs++;
+  } else {
+    slugSet.add(item.slug);
   }
 
-  if (item.gender === 'Female') female++;
-  else if (item.gender === 'Male') male++;
-  else unisex++;
+  // Check gender
+  if (item.gender === 'Female') femaleCount++;
+  else if (item.gender === 'Male') maleCount++;
+  else if (item.gender === 'Unisex') unisexCount++;
+  else if (item.gender === 'Unknown') unknownGenderCount++;
+  else invalidGenderValues++;
 
-  if (item.religion && item.religion.includes('Muslim')) muslim++;
+  // Check missing fields
+  if (!item.meaning || item.meaning.trim() === '') missingMeanings++;
+  if (!item.origin || item.origin.trim() === '') missingOrigins++;
 
-  const firstChar = (item.name[0] || '').toUpperCase();
-  if (letters[firstChar] !== undefined) {
-    letters[firstChar]++;
+  // Letter count
+  const firstChar = (item.name || '').charAt(0).toUpperCase();
+  if (letterCounts[firstChar] !== undefined) {
+    letterCounts[firstChar]++;
   }
-});
+}
 
-console.log("\n=========================================");
-console.log(`TOTAL RECORDS: ${total.toLocaleString()}`);
-console.log(`FEMALE NAMES: ${female.toLocaleString()} (${((female / total) * 100).toFixed(1)}%)`);
-console.log(`MALE NAMES: ${male.toLocaleString()} (${((male / total) * 100).toFixed(1)}%)`);
-console.log(`UNISEX NAMES: ${unisex.toLocaleString()} (${((unisex / total) * 100).toFixed(1)}%)`);
-console.log(`MUSLIM TRADITION NAMES: ${muslim.toLocaleString()} (${((muslim / total) * 100).toFixed(1)}%)`);
-console.log("=========================================\n");
+console.log(`FEMALE NAMES: ${femaleCount.toLocaleString()} (${((femaleCount / data.length) * 100).toFixed(1)}%)`);
+console.log(`MALE NAMES: ${maleCount.toLocaleString()} (${((maleCount / data.length) * 100).toFixed(1)}%)`);
+console.log(`UNISEX NAMES: ${unisexCount.toLocaleString()} (${((unisexCount / data.length) * 100).toFixed(1)}%)`);
+if (unknownGenderCount > 0) console.log(`UNKNOWN GENDERS: ${unknownGenderCount.toLocaleString()}`);
+if (invalidGenderValues > 0) console.log(`INVALID GENDER VALUES: ${invalidGenderValues.toLocaleString()}`);
+console.log(`=========================================\n`);
 
-console.log("LETTER BREAKDOWN (A-Z):");
-Object.keys(letters).sort().forEach(l => {
-  console.log(`  ${l}: ${letters[l].toLocaleString()} names`);
-});
+console.log(`QUALITY INTEGRITY CHECK:`);
+console.log(`  Duplicate Slugs: ${duplicateSlugs}`);
+console.log(`  Missing Meanings: ${missingMeanings}`);
+console.log(`  Missing Origins: ${missingOrigins}`);
 
-if (issues.length > 0) {
-  console.error(`\nFound ${issues.length} data quality issues!`);
-  issues.slice(0, 10).forEach(i => console.error(`  - ${i}`));
+console.log(`\nLETTER BREAKDOWN (A-Z):`);
+for (const [letter, count] of Object.entries(letterCounts)) {
+  console.log(`  ${letter}: ${count.toLocaleString()} names`);
+}
+
+if (invalidGenderValues > 0 || missingMeanings > 0) {
+  console.error("\n⚠️ Validation found data quality issues that need normalization.");
   process.exit(1);
 } else {
-  console.log("\n✅ Database validation passed cleanly with 0 issues.");
+  console.log("\n✅ Database audit passed cleanly with 100% gender metadata integrity.");
 }

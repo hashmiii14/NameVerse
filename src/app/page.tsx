@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { SearchBar } from '@/components/search/SearchBar';
 import { getNameBySlug } from '@/lib/data/namesHelper';
-import { Sparkles, ArrowRight, BookOpen, Compass, HelpCircle } from 'lucide-react';
+import { Sparkles, ArrowRight, Compass, HelpCircle } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ const CATEGORIES = [
 ];
 
 const FEATURED_SLUGS = [
-  'aisha', 'muhammad', 'aarav', 'fatima', 'arjun', 'zayn', 'sarah', 'khadija'
+  'aisha', 'muhammad', 'aarav', 'fatima', 'arjun', 'zayn', 'sarah', 'ananya'
 ];
 
 export default function HomePage() {
@@ -63,7 +63,7 @@ export default function HomePage() {
             <Link
               key={ex.slug}
               href={`/name/${ex.slug}`}
-              className="px-3 py-1 rounded-full bg-white border border-zinc-200 hover:border-emerald-500 hover:text-emerald-700 transition-colors font-medium text-zinc-700 shadow-2xs"
+              className="px-3 py-1 rounded-full bg-white border border-zinc-200 hover:border-emerald-500 hover:text-emerald-700 transition-colors font-semibold text-zinc-700 shadow-2xs"
             >
               {ex.name}
             </Link>
@@ -156,22 +156,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* 5. Feeling Curious? (Surprise Me) Section */}
-      <section className="bg-zinc-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
-        <div className="space-y-1 text-center sm:text-left">
-          <h3 className="text-lg font-black tracking-tight">Feeling curious?</h3>
-          <p className="text-xs text-zinc-400">Discover a random interesting name from our dataset.</p>
-        </div>
-        <Link
-          href="/api/random"
-          className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shrink-0 flex items-center gap-1.5"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Surprise me →</span>
-        </Link>
-      </section>
-
-      {/* 6. Final Search CTA Section */}
+      {/* 5. Final Search CTA Section */}
       <section className="text-center space-y-3 pt-4 border-t border-zinc-200/80">
         <h3 className="text-sm font-bold text-zinc-800">
           Didn&apos;t find what you were looking for?
