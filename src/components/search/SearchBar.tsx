@@ -2,39 +2,55 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Sparkles, X, ArrowRight, UserCheck } from 'lucide-react';
-import { slugifyName } from '@/lib/utils/slugify';
-import { saveRecentSearch } from '@/lib/utils/storage';
-import { useLanguage } from '@/lib/context/LanguageContext';
-import { SEED_NAMES } from '@/lib/data/prebuiltNames';
+import { Search, X, ArrowRight } from 'lucide-react';
+import { SearchIndexItem } from '@/types/name';
 
 interface SearchBarProps {
   initialValue?: string;
   large?: boolean;
 }
 
+// Global cached search index in browser memory
+let cachedIndex: SearchIndexItem[] | null = null;
+
 export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large = false }) => {
   const router = useRouter();
-  const { t } = useLanguage();
   const [query, setQuery] = useState(initialValue);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<SearchIndexItem[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [indexLoaded, setIndexLoaded] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // Lazy load search index when user interacts
+  const ensureIndexLoaded = async () => {
+    if (cachedIndex) {
+      setIndexLoaded(true);
+      return;
+    }
+    try {
+      const res = await fetch('/search-index.json');
+      if (res.ok) {
+        cachedIndex = await res.json();
+        setIndexLoaded(true);
+      }
+    } catch (e) {
+      console.error('Failed to load search index', e);
+    }
+  };
+
   useEffect(() => {
-    if (query.trim().length > 1) {
-      const q = query.toLowerCase();
-      const matches = Object.values(SEED_NAMES)
-        .filter(n => n.name.toLowerCase().includes(q) || n.meaning.toLowerCase().includes(q))
-        .map(n => n.name)
-        .slice(0, 5);
+    if (query.trim().length > 0 && cachedIndex) {
+      const q = query.toLowerCase().trim();
+      const matches = cachedIndex
+        .filter(item => item.n.toLowerCase().includes(q) || item.s.includes(q))
+        .slice(0, 6);
       setSuggestions(matches);
       setShowSuggestions(matches.length > 0);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
     }
-  }, [query]);
+  }, [query, indexLoaded]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,13 +62,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = (nameToSearch?: string) => {
-    const targetName = nameToSearch || query;
-    if (!targetName.trim()) return;
-    
-    const slug = slugifyName(targetName);
-    saveRecentSearch(targetName.trim(), slug);
+  const handleSearch = (targetSlug?: string, targetName?: string) => {
+    const raw = targetName || query;
+    if (!raw.trim()) return;
+
     setShowSuggestions(false);
+    const slug = targetSlug || raw.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
     router.push(`/name/${slug}`);
   };
 
@@ -62,14 +77,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
     }
   };
 
-  const isMultiWord = query.trim().split(/\s+/).length > 1;
-
   return (
     <div className="w-full max-w-3xl mx-auto relative" ref={wrapperRef}>
       <div
-        className={`relative flex items-center rounded-2xl bg-white border-2 transition-all shadow-lg shadow-slate-200/50 ${
+        className={`relative flex items-center rounded-2xl bg-white border-2 transition-all shadow-sm ${
           large
-            ? 'p-1.5 sm:p-2 border-emerald-400 focus-within:border-emerald-600 focus-within:ring-4 focus-within:ring-emerald-500/15'
+            ? 'p-1.5 sm:p-2 border-emerald-500 focus-within:border-emerald-600 focus-within:ring-4 focus-within:ring-emerald-500/10'
             : 'p-1 sm:p-1.5 border-slate-200 focus-within:border-emerald-500'
         }`}
       >
@@ -78,12 +91,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => {
+            ensureIndexLoaded();
+            if (query.trim().length > 0) setShowSuggestions(true);
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            ensureIndexLoaded();
+          }}
           onKeyDown={handleKeyDown}
-          onFocus={() => query.trim().length > 1 && setShowSuggestions(true)}
-          placeholder={large ? 'Enter any name...' : t.searchPlaceholder}
+          placeholder={large ? 'Search any name (e.g., Aarav, Fatima, Muhammad, John)...' : 'Search any name...'}
           className={`w-full bg-transparent px-2 sm:px-3 font-medium text-slate-900 placeholder-slate-400 outline-none ${
-            large ? 'text-sm sm:text-base md:text-lg py-2 sm:py-2.5' : 'text-sm py-1.5'
+            large ? 'text-sm sm:text-base md:text-lg py-2' : 'text-sm py-1.5'
           }`}
           aria-label="Search name"
         />
@@ -91,8 +110,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
         {query && (
           <button
             onClick={() => { setQuery(''); setSuggestions([]); }}
-            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 mr-0.5 sm:mr-1 shrink-0"
-            title="Clear"
+            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 mr-1 shrink-0"
+            title="Clear search"
           >
             <X className="w-4 h-4" />
           </button>
@@ -100,37 +119,32 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
 
         <button
           onClick={() => handleSearch()}
-          className={`flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm transition-all active:scale-95 shrink-0 ${
+          className={`flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shrink-0 ${
             large ? 'px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base' : 'px-3 sm:px-4 py-2 text-xs sm:text-sm'
           }`}
         >
-          <span className="hidden sm:inline">{t.exploreBtn}</span>
+          <span>Search</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Multi-word indicator */}
-      {isMultiWord && (
-        <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200/60">
-          <UserCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>Full Name Detected — each part will be analyzed separately.</span>
-        </div>
-      )}
-
       {/* Autocomplete Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
         <div className="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-50">
-          <div className="px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider bg-slate-50 border-b border-slate-100">
-            Suggestions
+          <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50 border-b border-slate-100">
+            Matching Names
           </div>
-          {suggestions.map((name) => (
+          {suggestions.map((item) => (
             <button
-              key={name}
-              onClick={() => handleSearch(name)}
-              className="w-full px-4 py-3 text-left flex items-center justify-between text-sm hover:bg-emerald-50 text-slate-800 transition-colors border-b border-slate-100 last:border-0"
+              key={item.s}
+              onClick={() => handleSearch(item.s, item.n)}
+              className="w-full px-4 py-2.5 text-left flex items-center justify-between text-sm hover:bg-emerald-50 text-slate-800 transition-colors border-b border-slate-100 last:border-0"
             >
-              <span className="font-semibold text-slate-900">{name}</span>
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500 opacity-60 shrink-0" />
+              <div>
+                <span className="font-bold text-slate-900">{item.n}</span>
+                <span className="ml-2 text-xs text-slate-500">({item.o})</span>
+              </div>
+              <span className="text-xs text-slate-400 truncate max-w-[200px]">{item.m}</span>
             </button>
           ))}
         </div>

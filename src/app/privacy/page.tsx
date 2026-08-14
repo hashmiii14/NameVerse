@@ -1,52 +1,88 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { Lock, Eye } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | NameMeaning.fun',
-  description: 'Privacy policy and data handling guidelines for NameMeaning.fun.',
+  description: 'Privacy Policy for NameMeaning.fun explaining data collection, cookies, analytics, and Google AdSense compliance.',
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-6">
-      <div className="space-y-2 border-b border-slate-200 dark:border-slate-800 pb-4">
-        <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+      
+      <div className="space-y-2 border-b border-slate-200 pb-5">
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
           Privacy Policy
         </h1>
-        <p className="text-xs text-slate-400">Last updated: August 2026</p>
+        <p className="text-xs sm:text-sm text-slate-500">
+          Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        </p>
       </div>
 
-      <div className="space-y-6 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+      <div className="space-y-6 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Lock className="w-4 h-4 text-emerald-500" />
-            1. User Privacy
-          </h2>
+          <h2 className="text-base font-bold text-slate-900">1. Introduction</h2>
           <p>
-            At NameMeaning.fun, we believe in privacy. We do not require account registration or personal details to analyze name meanings.
+            Welcome to <strong>NameMeaning.fun</strong> ("we," "our," or "us"). We respect your privacy and are committed to protecting any information collected through your use of our website. This Privacy Policy outlines the types of information we collect, how it is used, and your choices regarding your data.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Eye className="w-4 h-4 text-emerald-500" />
-            2. Local Browser Storage
-          </h2>
+          <h2 className="text-base font-bold text-slate-900">2. Information We Collect</h2>
           <p>
-            Your search history and bookmarked favorite names are stored strictly on your local browser. We do not transmit or sell your search history.
+            NameMeaning.fun is a free, public name dictionary. We do not require account registration or user logins.
+          </p>
+          <ul className="list-disc pl-5 space-y-1 text-slate-600">
+            <li><strong>Search Queries:</strong> Names typed into the search bar are processed to return relevant meanings and results.</li>
+            <li><strong>Technical & Usage Data:</strong> Standard web server logs may record your IP address, browser type, operating system, referring URLs, and pages visited.</li>
+          </ul>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-slate-900">3. Cookies & Local Storage</h2>
+          <p>
+            We may use cookies and browser local storage to enhance site navigation, remember user preferences (such as recent search history), and analyze site performance.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">
-            3. Advertising & Verification
-          </h2>
+          <h2 className="text-base font-bold text-slate-900">4. Advertising & Google AdSense</h2>
           <p>
-            We adhere to strict Google AdSense publishing requirements (`ads.txt` publisher verification pub-7164032171965193).
+            NameMeaning.fun uses Google AdSense to serve advertisements.
+          </p>
+          <ul className="list-disc pl-5 space-y-1 text-slate-600">
+            <li>Google uses cookies (such as the DART cookie) to serve ads based on users' visits to our site and other sites on the Internet.</li>
+            <li>Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Ads Settings</a>.</li>
+          </ul>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-slate-900">5. Third-Party Analytics</h2>
+          <p>
+            We may use third-party analytics services (such as Google Analytics) to monitor website traffic, aggregate user engagement, and optimize site speed and performance. These tools collect information anonymously.
           </p>
         </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-slate-900">6. Data Protection & Security</h2>
+          <p>
+            We implement standard administrative and technical safeguards to protect information against unauthorized access, loss, or alteration.
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-slate-900">7. Contact Information</h2>
+          <p>
+            If you have questions regarding this Privacy Policy, please contact us at:
+          </p>
+          <p className="font-semibold text-slate-900">
+            Email: <a href="mailto:mdhashmi955@gmail.com" className="text-emerald-600 hover:underline">mdhashmi955@gmail.com</a>
+          </p>
+        </section>
+
       </div>
+
     </div>
   );
 }
