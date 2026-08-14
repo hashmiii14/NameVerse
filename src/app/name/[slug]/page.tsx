@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getNameBySlug, getAllSlugs } from '@/lib/data/namesHelper';
 import { SearchBar } from '@/components/search/SearchBar';
-import { Compass, BookOpen, Globe, User, Shield, Tag, ArrowRight } from 'lucide-react';
+import { BookOpen, Globe, User, Shield, ArrowRight } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -194,7 +194,7 @@ export default async function NameResultPage({ params }: PageProps) {
           Meaning of the Name {data.name}
         </h2>
         <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-100 text-slate-900 text-sm font-semibold leading-relaxed">
-          "{data.meaning}"
+          &quot;{data.meaning}&quot;
         </div>
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pt-2">
           {data.description}

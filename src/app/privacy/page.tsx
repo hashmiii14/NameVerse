@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         <section className="space-y-2">
           <h2 className="text-base font-bold text-slate-900">1. Introduction</h2>
           <p>
-            Welcome to <strong>NameMeaning.fun</strong> ("we," "our," or "us"). We respect your privacy and are committed to protecting any information collected through your use of our website. This Privacy Policy outlines the types of information we collect, how it is used, and your choices regarding your data.
+            Welcome to <strong>NameMeaning.fun</strong> (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We respect your privacy and are committed to protecting any information collected through your use of our website. This Privacy Policy outlines the types of information we collect, how it is used, and your choices regarding your data.
           </p>
         </section>
 
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
             NameMeaning.fun uses Google AdSense to serve advertisements.
           </p>
           <ul className="list-disc pl-5 space-y-1 text-slate-600">
-            <li>Google uses cookies (such as the DART cookie) to serve ads based on users' visits to our site and other sites on the Internet.</li>
+            <li>Google uses cookies (such as the DART cookie) to serve ads based on users&apos; visits to our site and other sites on the Internet.</li>
             <li>Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline">Google Ads Settings</a>.</li>
           </ul>
         </section>
