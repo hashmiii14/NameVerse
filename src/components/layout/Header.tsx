@@ -11,14 +11,14 @@ export const Header: React.FC = () => {
     <header className="sticky top-0 z-40 w-full bg-white border-b border-slate-200 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-4">
         
-        {/* Brand Text */}
+        {/* Brand */}
         <Link href="/" className="flex items-center shrink-0">
           <span className="font-black text-xl sm:text-2xl tracking-tight text-slate-900">
             NameMeaning<span className="text-emerald-600">.fun</span>
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
           <Link href="/" className="hover:text-emerald-600 transition-colors">
             Home
@@ -27,18 +27,18 @@ export const Header: React.FC = () => {
             <Compass className="w-4 h-4 text-emerald-600" />
             <span>Find Names</span>
           </Link>
-          <Link href="/about" className="hover:text-emerald-600 transition-colors">
-            About Us
+          <Link href="/privacy-policy" className="hover:text-emerald-600 transition-colors">
+            Privacy Policy
           </Link>
           <Link href="/contact" className="hover:text-emerald-600 transition-colors">
-            Contact
+            Contact Us
           </Link>
-          <Link href="/privacy" className="hover:text-emerald-600 transition-colors">
-            Privacy Policy
+          <Link href="/about-us" className="hover:text-emerald-600 transition-colors">
+            About Us
           </Link>
         </nav>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center"
@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <>
           <div
@@ -87,12 +87,12 @@ export const Header: React.FC = () => {
                 <span>Find Names</span>
               </Link>
               <Link
-                href="/about"
+                href="/privacy-policy"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors"
               >
-                <Info className="w-5 h-5 text-emerald-600" />
-                <span>About Us</span>
+                <FileText className="w-5 h-5 text-emerald-600" />
+                <span>Privacy Policy</span>
               </Link>
               <Link
                 href="/contact"
@@ -100,15 +100,15 @@ export const Header: React.FC = () => {
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors"
               >
                 <Mail className="w-5 h-5 text-emerald-600" />
-                <span>Contact</span>
+                <span>Contact Us</span>
               </Link>
               <Link
-                href="/privacy"
+                href="/about-us"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors"
               >
-                <FileText className="w-5 h-5 text-emerald-600" />
-                <span>Privacy Policy</span>
+                <Info className="w-5 h-5 text-emerald-600" />
+                <span>About Us</span>
               </Link>
             </nav>
           </div>

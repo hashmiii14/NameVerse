@@ -271,7 +271,7 @@ function FindNamesContent() {
 
               <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
                 <span>{item.o} Origin</span>
-                <span>{item.r && item.r[0] ? item.r[0] : 'Cultural'}</span>
+                <span>{item.t || (item.r && item.r[0] ? item.r[0] : 'Cultural')}</span>
               </div>
             </Link>
           ))}

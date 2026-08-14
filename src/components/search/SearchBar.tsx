@@ -10,7 +10,6 @@ interface SearchBarProps {
   large?: boolean;
 }
 
-// Global cached search index in browser memory
 let cachedIndex: SearchIndexItem[] | null = null;
 
 export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large = false }) => {
@@ -18,39 +17,63 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
   const [query, setQuery] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<SearchIndexItem[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [indexLoaded, setIndexLoaded] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Lazy load search index when user interacts
-  const ensureIndexLoaded = async () => {
-    if (cachedIndex) {
-      setIndexLoaded(true);
+  useEffect(() => {
+    if (!query.trim()) {
+      setSuggestions([]);
+      setShowSuggestions(false);
       return;
     }
-    try {
-      const res = await fetch('/search-index.json');
-      if (res.ok) {
-        cachedIndex = await res.json();
-        setIndexLoaded(true);
-      }
-    } catch (e) {
-      console.error('Failed to load search index', e);
-    }
-  };
 
-  useEffect(() => {
-    if (query.trim().length > 0 && cachedIndex) {
-      const q = query.toLowerCase().trim();
+    const q = query.toLowerCase().trim();
+
+    if (cachedIndex) {
       const matches = cachedIndex
         .filter(item => item.n.toLowerCase().includes(q) || item.s.includes(q))
         .slice(0, 6);
       setSuggestions(matches);
       setShowSuggestions(matches.length > 0);
     } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
+      // Fast fallback to /api/search
+      const timer = setTimeout(() => {
+        fetch(`/api/search?q=${encodeURIComponent(q)}&limit=6`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.results) {
+              const formatted: SearchIndexItem[] = data.results.map((item: any) => ({
+                n: item.name,
+                s: item.slug,
+                g: item.gender,
+                o: item.origin,
+                r: item.religion,
+                l: item.language,
+                t: item.nameType,
+                m: item.shortMeaning || item.meaning
+              }));
+              setSuggestions(formatted);
+              setShowSuggestions(formatted.length > 0);
+            }
+          })
+          .catch(() => {});
+      }, 100);
+
+      return () => clearTimeout(timer);
     }
-  }, [query, indexLoaded]);
+  }, [query]);
+
+  // Pre-fetch search index lazily in background
+  const handleFocus = () => {
+    if (!cachedIndex) {
+      fetch('/search-index.json')
+        .then(res => res.json())
+        .then(data => {
+          cachedIndex = data;
+        })
+        .catch(() => {});
+    }
+    if (query.trim()) setShowSuggestions(true);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -91,20 +114,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
         <input
           type="text"
           value={query}
-          onFocus={() => {
-            ensureIndexLoaded();
-            if (query.trim().length > 0) setShowSuggestions(true);
-          }}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            ensureIndexLoaded();
-          }}
+          onFocus={handleFocus}
+          onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={large ? 'Search any name (e.g., Aarav, Fatima, Muhammad, John)...' : 'Search any name...'}
+          placeholder={large ? 'Search any name or surname (e.g., Hashmi, Aarav, Fatima, John)...' : 'Search any name...'}
           className={`w-full bg-transparent px-2 sm:px-3 font-medium text-slate-900 placeholder-slate-400 outline-none ${
             large ? 'text-sm sm:text-base md:text-lg py-2' : 'text-sm py-1.5'
           }`}
-          aria-label="Search name"
+          aria-label="Search name or surname"
         />
 
         {query && (
@@ -128,11 +145,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
         </button>
       </div>
 
-      {/* Autocomplete Dropdown */}
+      {/* Autocomplete Suggestions */}
       {showSuggestions && suggestions.length > 0 && (
         <div className="absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-50">
           <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50 border-b border-slate-100">
-            Matching Names
+            Matching Names & Surnames
           </div>
           {suggestions.map((item) => (
             <button
@@ -144,7 +161,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
                 <span className="font-bold text-slate-900">{item.n}</span>
                 <span className="ml-2 text-xs text-slate-500">({item.o})</span>
               </div>
-              <span className="text-xs text-slate-400 truncate max-w-[200px]">{item.m}</span>
+              <span className="text-xs text-slate-400 truncate max-w-[200px]">{item.t || item.m}</span>
             </button>
           ))}
         </div>

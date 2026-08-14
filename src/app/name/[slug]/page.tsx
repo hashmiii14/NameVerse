@@ -136,12 +136,17 @@ export default async function NameResultPage({ params }: PageProps) {
           </div>
 
           <div className="flex items-center gap-2">
+            {data.nameType && (
+              <span className="text-xs sm:text-sm font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                {data.nameType}
+              </span>
+            )}
             <span className={`text-xs sm:text-sm font-bold px-3 py-1 rounded-full ${
               data.gender === 'Male' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
               data.gender === 'Female' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
               'bg-emerald-50 text-emerald-700 border border-emerald-200'
             }`}>
-              {data.gender} Name
+              {data.gender}
             </span>
           </div>
         </div>
