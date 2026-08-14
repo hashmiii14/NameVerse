@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { queryNamesServer } from '@/lib/data/namesHelper';
 import { SearchBar } from '@/components/search/SearchBar';
-import { ArrowLeft, BookOpen, ChevronRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ letter: string }>;

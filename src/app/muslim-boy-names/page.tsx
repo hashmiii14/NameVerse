@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { queryNamesServer } from '@/lib/data/namesHelper';
 import { SearchBar } from '@/components/search/SearchBar';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 interface PageProps {
   searchParams: Promise<{ page?: string; letter?: string }>;

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { SearchIndexItem } from '@/types/name';
+import { SearchIndexItem, NameRecord } from '@/types/name';
 
 interface SearchBarProps {
   initialValue?: string;
@@ -41,7 +41,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ initialValue = '', large =
           .then(res => res.json())
           .then(data => {
             if (data.success && data.results) {
-              const formatted: SearchIndexItem[] = data.results.map((item: any) => ({
+              const formatted: SearchIndexItem[] = data.results.map((item: NameRecord) => ({
                 n: item.name,
                 s: item.slug,
                 g: item.gender,

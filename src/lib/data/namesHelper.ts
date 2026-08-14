@@ -1,6 +1,7 @@
 import { NameRecord, FilterOptions } from '@/types/name';
 import fs from 'fs';
 import path from 'path';
+import namesData from './names.json';
 
 let cachedNames: NameRecord[] | null = null;
 let cachedSlugMap: Map<string, NameRecord> | null = null;
@@ -14,16 +15,11 @@ function loadDataset(): NameRecord[] {
       const raw = fs.readFileSync(filePath, 'utf-8');
       cachedNames = JSON.parse(raw) as NameRecord[];
     } else {
-      // Fallback require
-      cachedNames = require('./names.json') as NameRecord[];
+      cachedNames = namesData as NameRecord[];
     }
   } catch (err) {
     console.error("Error reading names.json:", err);
-    try {
-      cachedNames = require('./names.json') as NameRecord[];
-    } catch (fallbackErr) {
-      cachedNames = [];
-    }
+    cachedNames = namesData as NameRecord[];
   }
 
   // Build O(1) map

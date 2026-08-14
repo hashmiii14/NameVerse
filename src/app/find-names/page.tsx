@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, X, ChevronLeft, ChevronRight, Filter, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { Search, X, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
 import { NameRecord } from '@/types/name';
 
 const GENDERS = ['All', 'Female', 'Male', 'Unisex'];
@@ -192,7 +192,7 @@ function FindNamesContent() {
             <select
               value={religion}
               onChange={e => setReligion(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-800 text-xs font-semibold outline-none focus:border-emerald-500"
             >
               {RELIGIONS.map(r => (
                 <option key={r} value={r}>{r}</option>
