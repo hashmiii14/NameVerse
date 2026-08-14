@@ -1,8 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getNameBySlug, getAllSlugs } from '@/lib/data/namesHelper';
+import { getNameBySlug, getAllSlugs, queryNamesServer } from '@/lib/data/namesHelper';
 import { SearchBar } from '@/components/search/SearchBar';
 import { ShareButton } from '@/components/name/ShareButton';
 import { BookOpen, Globe, User, Shield, ArrowRight, ArrowLeft, Sparkles, HelpCircle } from 'lucide-react';
@@ -18,12 +18,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const data = getNameBySlug(slug);
+  let data = getNameBySlug(slug);
+
+  if (!data) {
+    const rawSearch = slug.replace(/-/g, ' ');
+    const fallback = queryNamesServer({ searchQuery: rawSearch }, 1);
+    if (fallback.results && fallback.results.length > 0) {
+      data = fallback.results[0];
+    }
+  }
 
   if (!data) {
     return {
-      title: 'Name Not Found | NameMeaning.fun',
-      description: 'The requested name could not be found in our dictionary.',
+      title: 'Name Directory Search | NameMeaning.fun',
+      description: 'Explore personal name meanings, etymologies, and historical roots.',
     };
   }
 
@@ -48,23 +56,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NameResultPage({ params }: PageProps) {
   const { slug } = await params;
-  const data = getNameBySlug(slug);
+  let data = getNameBySlug(slug);
 
   if (!data) {
-    notFound();
+    const rawSearch = slug.replace(/-/g, ' ');
+    const fallback = queryNamesServer({ searchQuery: rawSearch }, 1);
+    if (fallback.results && fallback.results.length > 0) {
+      data = fallback.results[0];
+    } else {
+      // If no single name matches, redirect to search directory
+      redirect(`/find-names?q=${encodeURIComponent(rawSearch)}`);
+    }
   }
 
   const altSpellings = data.alternateSpellings || data.alternate_spellings || [];
   const simNames = data.similarNames || data.similar_names || [];
 
-  // Generate a playful, labeled "Name vibe"
   const nameVibes = [
     data.gender === 'Female' ? 'Graceful' : 'Dignified',
     'Timeless',
     data.origin === 'Arabic' || data.origin === 'Persian' ? 'Lyrical' : 'Classic'
   ];
 
-  // Did You Know etymological insight
   const didYouKnowFact = `Names of ${data.origin} origin carrying roots of "${data.meaning.split(' ')[0] || 'virtue'}" are historically associated with nobility, character strength, and literary tradition.`;
 
   const jsonLdTerm = {

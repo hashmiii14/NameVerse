@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, X, ArrowRight } from 'lucide-react';
+import { Search, X, ArrowRight, Loader2 } from 'lucide-react';
 import { SearchIndexItem, NameRecord } from '@/types/name';
 
 interface SearchBarProps {
@@ -11,17 +11,16 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-let cachedIndex: SearchIndexItem[] | null = null;
-
 export const SearchBar: React.FC<SearchBarProps> = ({
   initialValue = '',
   large = false,
-  placeholder = 'Type a name to discover its story...'
+  placeholder = 'Search your name (e.g. Rahul Kumar, Aisha, Aarav)...'
 }) => {
   const router = useRouter();
   const [query, setQuery] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<SearchIndexItem[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loading, setLoading] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,52 +30,42 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       return;
     }
 
-    const q = query.toLowerCase().trim();
+    const q = query.trim();
 
-    if (cachedIndex) {
-      const matches = cachedIndex
-        .filter(item => item.n.toLowerCase().includes(q) || item.s.includes(q))
-        .slice(0, 5);
-      setSuggestions(matches);
-      setShowSuggestions(matches.length > 0);
-    } else {
-      const timer = setTimeout(() => {
-        fetch(`/api/search?q=${encodeURIComponent(q)}&limit=5`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.success && data.results) {
-              const formatted: SearchIndexItem[] = data.results.map((item: NameRecord) => ({
-                n: item.name,
-                s: item.slug,
-                g: item.gender,
-                o: item.origin,
-                r: item.religion,
-                l: item.language,
-                t: item.nameType,
-                m: item.shortMeaning || item.meaning
-              }));
-              setSuggestions(formatted);
-              setShowSuggestions(formatted.length > 0);
-            }
-          })
-          .catch(() => {});
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-  }, [query]);
-
-  const handleFocus = () => {
-    if (!cachedIndex) {
-      fetch('/search-index.json')
+    const timer = setTimeout(() => {
+      setLoading(true);
+      fetch(`/api/search?q=${encodeURIComponent(q)}&limit=6`)
         .then(res => res.json())
         .then(data => {
-          cachedIndex = data;
+          if (data.success && data.results && data.results.length > 0) {
+            const formatted: SearchIndexItem[] = data.results.map((item: NameRecord) => ({
+              n: item.name,
+              s: item.slug,
+              g: item.gender,
+              o: item.origin,
+              r: item.religion,
+              l: item.language,
+              t: item.nameType,
+              m: item.shortMeaning || item.meaning
+            }));
+            setSuggestions(formatted);
+            setShowSuggestions(true);
+          } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+          }
         })
-        .catch(() => {});
-    }
-    if (query.trim()) setShowSuggestions(true);
-  };
+        .catch(err => {
+          console.error("Search API error:", err);
+          setSuggestions([]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -93,8 +82,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     if (!raw.trim()) return;
 
     setShowSuggestions(false);
-    const slug = targetSlug || raw.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
-    router.push(`/name/${slug}`);
+    
+    if (targetSlug) {
+      router.push(`/name/${targetSlug}`);
+    } else {
+      const qClean = raw.trim();
+      const slugCandidate = qClean.toLowerCase().replace(/[\s\W-]+/g, '-');
+      
+      // If exact single-word or hyphenated slug, check or navigate directly to search directory
+      router.push(`/find-names?q=${encodeURIComponent(qClean)}`);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -117,7 +114,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <input
           type="text"
           value={query}
-          onFocus={handleFocus}
+          onFocus={() => query.trim() && suggestions.length > 0 && setShowSuggestions(true)}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
@@ -127,7 +124,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           aria-label="Search name"
         />
 
-        {query && (
+        {loading && (
+          <Loader2 className="w-4 h-4 text-emerald-600 animate-spin mr-2 shrink-0" />
+        )}
+
+        {query && !loading && (
           <button
             onClick={() => { setQuery(''); setSuggestions([]); }}
             className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-600 mr-1 shrink-0"
