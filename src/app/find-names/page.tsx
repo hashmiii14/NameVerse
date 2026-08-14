@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, X, ChevronLeft, ChevronRight, SlidersHorizontal, Info, Loader2 } from 'lucide-react';
+import { Search, X, ChevronLeft, ChevronRight, SlidersHorizontal, Info, Loader2, Sparkles, ArrowRight } from 'lucide-react';
 import { NameRecord } from '@/types/name';
 
 const GENDERS = ['All', 'Female', 'Male', 'Unisex'];
@@ -42,15 +42,13 @@ function FindNamesContent() {
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // Sync debounced search input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 250);
+    }, 200);
     return () => clearTimeout(handler);
   }, [query]);
 
-  // Sync URL search params on navigation
   useEffect(() => {
     if (searchParams.get('q') !== null) setQuery(searchParams.get('q') || '');
     if (searchParams.get('gender') !== null) setGender(searchParams.get('gender') || 'All');
@@ -60,7 +58,6 @@ function FindNamesContent() {
     if (searchParams.get('letter') !== null) setLetter(searchParams.get('letter') || 'All');
   }, [searchParams]);
 
-  // Reset to page 1 on filter changes
   const handleFilterChange = (setter: (val: string) => void, value: string) => {
     setter(value);
     setPage(1);
@@ -113,6 +110,9 @@ function FindNamesContent() {
     router.push('/find-names');
   };
 
+  // Extract top similar names row if searching
+  const similarItems = (debouncedQuery && names.length > 1) ? names.slice(1, 9) : [];
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
       
@@ -122,7 +122,7 @@ function FindNamesContent() {
           Find Names Directory
         </h1>
         <p className="text-xs sm:text-sm text-zinc-600">
-          Filter authentic personal names by gender, origin, culture, community metadata, or letter.
+          Search over 104,000+ authentic personal names by gender, origin, culture, community metadata, or letter.
         </p>
       </div>
 
@@ -139,7 +139,7 @@ function FindNamesContent() {
                 setQuery(e.target.value);
                 setPage(1);
               }}
-              placeholder="Search name or meaning (e.g. Fatima, Aarav, Light)..."
+              placeholder="Search name or meaning (e.g. Fatima, Aarav, Rahul)..."
               className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/60 text-zinc-900 text-sm font-medium outline-none focus:border-zinc-400 focus:bg-white transition-colors"
             />
             {query ? (
@@ -306,6 +306,31 @@ function FindNamesContent() {
             </div>
           </div>
         </>
+      )}
+
+      {/* Similar Names Highlights Row when Searching */}
+      {debouncedQuery && similarItems.length > 0 && (
+        <div className="bg-emerald-50/50 border border-emerald-200/60 rounded-3xl p-5 space-y-3 shadow-2xs">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900 uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-emerald-600" />
+            <span>Similar &amp; Related Names for &ldquo;{debouncedQuery}&rdquo;</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {similarItems.map(sim => (
+              <Link
+                key={sim.slug}
+                href={`/name/${sim.slug}`}
+                className="flex items-center justify-between p-3 rounded-2xl bg-white border border-emerald-200/80 hover:border-emerald-500 hover:shadow-2xs transition-all text-xs font-bold text-zinc-800"
+              >
+                <div className="space-y-0.5">
+                  <div className="text-zinc-900">{sim.name}</div>
+                  <div className="text-[10px] font-medium text-zinc-500">{sim.gender} · {sim.origin}</div>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
       )}
 
       {/* Grid Results */}

@@ -2,12 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { SearchBar } from '@/components/search/SearchBar';
 import { getNameBySlug } from '@/lib/data/namesHelper';
-import { Sparkles, ArrowRight, Compass, HelpCircle } from 'lucide-react';
+import { Sparkles, ArrowRight, Compass, HelpCircle, User, Shield, Globe, BookOpen } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'NameMeaning.fun — What does your name mean?',
-  description: 'Search your name and discover its meaning, origin, history and interesting details.',
+  description: 'Search your name and discover its meaning, origin, history and interesting details across 104,000+ authentic records.',
 };
 
 const EXAMPLE_SEARCHES = [
@@ -26,23 +26,27 @@ const CATEGORIES = [
   { label: 'Hindu Names', href: '/find-names?religion=Hindu' },
   { label: 'Arabic Names', href: '/find-names?origin=Arabic' },
   { label: 'Indian Names', href: '/find-names?origin=Sanskrit' },
+  { label: 'Persian Names', href: '/find-names?origin=Persian' },
+  { label: 'Urdu Names', href: '/find-names?origin=Urdu' },
 ];
 
 const FEATURED_SLUGS = [
   'aisha', 'muhammad', 'aarav', 'fatima', 'arjun', 'zayn', 'sarah', 'ananya'
 ];
 
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 export default function HomePage() {
   const featuredItems = FEATURED_SLUGS.map(s => getNameBySlug(s)).filter(Boolean);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-14">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-14">
       
       {/* 1. Hero Section */}
       <section className="text-center space-y-6 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-zinc-100 text-zinc-700 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Etymology &amp; Name Discovery</span>
+          <span>Search 104,000+ Verified Personal Names</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 leading-tight">
@@ -54,7 +58,7 @@ export default function HomePage() {
         </p>
 
         <div className="pt-2">
-          <SearchBar large={true} placeholder="Enter your name..." />
+          <SearchBar large={true} placeholder="Enter your name (e.g. Rahul Kumar, Fatima)..." />
         </div>
 
         <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-xs text-zinc-500">
@@ -75,10 +79,10 @@ export default function HomePage() {
       <section className="pt-8 border-t border-zinc-200/80 space-y-4">
         <div className="space-y-1">
           <h2 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
-            Explore names
+            Explore names by category
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600">
-            Browse names by gender, origin and community.
+            Browse names by gender, origin, language and cultural heritage.
           </p>
         </div>
 
@@ -87,7 +91,7 @@ export default function HomePage() {
             <Link
               key={cat.label}
               href={cat.href}
-              className="px-4 py-2 rounded-xl bg-white border border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 text-zinc-800 text-xs font-bold transition-all shadow-2xs"
+              className="px-4 py-2 rounded-xl bg-white border border-zinc-200 hover:border-emerald-500 hover:bg-emerald-50/20 text-zinc-800 text-xs font-bold transition-all shadow-2xs"
             >
               {cat.label}
             </Link>
@@ -142,7 +146,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Editorial "Did You Know?" Section */}
+      {/* 4. Alphabet Entry Points Bar */}
+      <section className="bg-white border border-zinc-200 rounded-3xl p-6 space-y-3 shadow-2xs text-center">
+        <div className="space-y-1">
+          <h3 className="text-base sm:text-lg font-black text-zinc-900">
+            Browse directory by starting letter
+          </h3>
+          <p className="text-xs text-zinc-500">
+            Quick access to over 4,000+ documented names for every letter A to Z.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-1.5 pt-2">
+          {ALPHABET.map(letter => (
+            <Link
+              key={letter}
+              href={`/find-names?letter=${letter}`}
+              className="w-8 h-8 rounded-lg bg-zinc-50 border border-zinc-200 hover:border-emerald-500 hover:bg-emerald-50 text-zinc-800 font-extrabold text-xs flex items-center justify-center transition-all shadow-2xs"
+            >
+              {letter}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. Editorial "Did You Know?" Section */}
       <section className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-8 space-y-3 shadow-2xs">
         <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 uppercase tracking-wider">
           <HelpCircle className="w-4 h-4 text-emerald-600" />
@@ -156,7 +183,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* 5. Final Search CTA Section */}
+      {/* 6. Final Search CTA Section */}
       <section className="text-center space-y-3 pt-4 border-t border-zinc-200/80">
         <h3 className="text-sm font-bold text-zinc-800">
           Didn&apos;t find what you were looking for?
@@ -166,7 +193,7 @@ export default function HomePage() {
           className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white border border-zinc-300 hover:border-zinc-500 text-zinc-900 font-bold text-xs transition-all shadow-2xs"
         >
           <Compass className="w-4 h-4 text-emerald-600" />
-          <span>Search all names →</span>
+          <span>Search all names in directory →</span>
         </Link>
       </section>
 

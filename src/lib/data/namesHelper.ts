@@ -2,17 +2,15 @@ import { NameRecord, FilterOptions } from '@/types/name';
 import fs from 'fs';
 import path from 'path';
 
-let cachedNames: NameRecord[] | null = null;
-let cachedSlugMap: Map<string, NameRecord> | null = null;
+let cachedPopular: NameRecord[] | null = null;
+const letterCache: Map<string, NameRecord[]> = new Map();
 
-function loadDataset(): NameRecord[] {
-  if (cachedNames && cachedNames.length > 0) return cachedNames;
+function loadPopularDataset(): NameRecord[] {
+  if (cachedPopular && cachedPopular.length > 0) return cachedPopular;
 
   const candidatePaths = [
-    path.join(process.cwd(), 'src', 'lib', 'data', 'names.json'),
-    path.join(process.cwd(), 'public', 'data', 'names.json'),
-    path.join(process.cwd(), 'names.json'),
-    path.join(__dirname, 'names.json'),
+    path.join(process.cwd(), 'public', 'data', 'popular.json'),
+    path.join(process.cwd(), 'src', 'lib', 'data', 'popular.json'),
   ];
 
   for (const filePath of candidatePaths) {
@@ -21,40 +19,50 @@ function loadDataset(): NameRecord[] {
         const raw = fs.readFileSync(filePath, 'utf-8');
         const parsed = JSON.parse(raw) as NameRecord[];
         if (parsed && Array.isArray(parsed) && parsed.length > 0) {
-          cachedNames = parsed;
-          break;
+          cachedPopular = parsed;
+          return cachedPopular;
         }
       }
     } catch (err) {
-      console.error(`Failed reading dataset at ${filePath}:`, err);
+      console.error(`Error loading popular dataset from ${filePath}:`, err);
     }
   }
 
-  if (!cachedNames) {
-    cachedNames = [];
-  }
-
-  // Build O(1) slug map
-  cachedSlugMap = new Map<string, NameRecord>();
-  for (let i = 0; i < cachedNames.length; i++) {
-    const item = cachedNames[i];
-    if (item && item.slug) {
-      cachedSlugMap.set(item.slug.toLowerCase(), item);
-      const simpleName = item.name.toLowerCase().trim();
-      if (!cachedSlugMap.has(simpleName)) {
-        cachedSlugMap.set(simpleName, item);
-      }
-    }
-  }
-
-  return cachedNames;
+  cachedPopular = [];
+  return cachedPopular;
 }
 
-function getSlugMap(): Map<string, NameRecord> {
-  if (!cachedSlugMap) {
-    loadDataset();
+function loadLetterDataset(letterChar: string): NameRecord[] {
+  const char = letterChar.toLowerCase().charAt(0);
+  if (!char || char < 'a' || char > 'z') {
+    return loadPopularDataset();
   }
-  return cachedSlugMap || new Map();
+
+  if (letterCache.has(char)) {
+    return letterCache.get(char)!;
+  }
+
+  const candidatePaths = [
+    path.join(process.cwd(), 'public', 'data', 'by-letter', `${char}.json`),
+    path.join(process.cwd(), 'src', 'lib', 'data', 'by-letter', `${char}.json`),
+  ];
+
+  for (const filePath of candidatePaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, 'utf-8');
+        const parsed = JSON.parse(raw) as NameRecord[];
+        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+          letterCache.set(char, parsed);
+          return parsed;
+        }
+      }
+    } catch (err) {
+      console.error(`Error loading letter ${char} dataset:`, err);
+    }
+  }
+
+  return loadPopularDataset();
 }
 
 /**
@@ -62,38 +70,56 @@ function getSlugMap(): Map<string, NameRecord> {
  */
 export function getNameBySlug(slug: string): NameRecord | undefined {
   if (!slug) return undefined;
-  const map = getSlugMap();
   const clean = slug.toLowerCase().trim().replace(/[\s\W-]+/g, '-');
-  return map.get(clean) || map.get(slug.toLowerCase().trim());
+  const firstChar = clean.charAt(0);
+
+  // 1. Check target letter chunk
+  if (firstChar >= 'a' && firstChar <= 'z') {
+    const list = loadLetterDataset(firstChar);
+    const item = list.find(n => n.slug.toLowerCase() === clean || n.name.toLowerCase() === slug.toLowerCase());
+    if (item) return item;
+  }
+
+  // 2. Check popular fallback chunk
+  const popList = loadPopularDataset();
+  return popList.find(n => n.slug.toLowerCase() === clean || n.name.toLowerCase() === slug.toLowerCase());
 }
 
 /**
- * Get all names in the master dataset
- */
-export function getAllNames(): NameRecord[] {
-  return loadDataset();
-}
-
-/**
- * Get list of all valid indexable slugs for dynamic static params & sitemap
+ * Get sample list of valid indexable slugs for dynamic static params & sitemap
  */
 export function getAllSlugs(): string[] {
-  return loadDataset().map(item => item.slug);
+  return loadPopularDataset().map(item => item.slug);
 }
 
 /**
- * High-performance server-side search & filter utility (Single-pass O(N) execution)
+ * High-performance server-side search & filter utility (Partitioned Serverless Execution)
  */
 export function queryNamesServer(options: FilterOptions, limit = 48, offset = 0): { results: NameRecord[]; total: number } {
-  const dataset = loadDataset();
-  
+  let dataset: NameRecord[] = [];
+
+  const q = (options.searchQuery && options.searchQuery.trim()) ? options.searchQuery.toLowerCase().trim() : null;
+  const letter = (options.letter && options.letter !== 'All') ? options.letter.toLowerCase() : null;
+
+  // Determine target partition chunk
+  if (letter && letter >= 'a' && letter <= 'z') {
+    dataset = loadLetterDataset(letter);
+  } else if (q) {
+    const firstChar = q.charAt(0);
+    if (firstChar >= 'a' && firstChar <= 'z') {
+      dataset = loadLetterDataset(firstChar);
+    } else {
+      dataset = loadPopularDataset();
+    }
+  } else {
+    dataset = loadPopularDataset();
+  }
+
   const gender = (options.gender && options.gender !== 'All') ? options.gender.toLowerCase() : null;
   const origin = (options.origin && options.origin !== 'All') ? options.origin.toLowerCase() : null;
   const religion = (options.religion && options.religion !== 'All') ? options.religion.toLowerCase() : null;
   const language = (options.language && options.language !== 'All') ? options.language.toLowerCase() : null;
   const community = (options.community && options.community !== 'All') ? options.community.toLowerCase() : null;
-  const letter = (options.letter && options.letter !== 'All') ? options.letter.toLowerCase() : null;
-  const q = (options.searchQuery && options.searchQuery.trim()) ? options.searchQuery.toLowerCase().trim() : null;
   const qSlug = q ? q.replace(/[\s\W-]+/g, '-') : null;
 
   const matches: NameRecord[] = [];
